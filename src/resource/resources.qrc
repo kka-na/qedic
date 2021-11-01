@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="/">
+    <file>icon/icon.png</file>
+    <file>icon/detail.png</file>
+    <file>icon/detail.png</file>
+    <file>icon/accept.png</file>
+    <file>icon/reject.png</file>
+    <file>icon/data.png</file>
+    <file>icon/server.png</file>
+    <file>icon/task.png</file>
+    <file>icon/storage.png</file>
+    <file>icon/left.png</file>
+    <file>icon/right.png</file>
+    <file>icon/easy.png</file>
+    <file>icon/moderate.png</file>
+    <file>icon/hard.png</file>
+  </qresource>
+</RCC>

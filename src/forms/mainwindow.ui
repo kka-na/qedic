@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1590</width>
+    <height>899</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QEDiC</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resource/resources.qrc">
+    <normaloff>:/icon/icon.png</normaloff>:/icon/icon.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(241, 245, 248);</string>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>211</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="2">
+      <widget class="QPushButton" name="rightButton">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="right" resource="../resource/resources.qrc">
+         <normaloff>:/icon/right.png</normaloff>:/icon/right.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>D</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="storageButton">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="storage" resource="../resource/resources.qrc">
+         <normaloff>:/icon/storage.png</normaloff>:/icon/storage.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="leftButton">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="left" resource="../resource/resources.qrc">
+         <normaloff>:/icon/left.png</normaloff>:/icon/left.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>A</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="serverButton">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="s" resource="../resource/resources.qrc">
+         <normaloff>:/icon/server.png</normaloff>:/icon/server.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>Backspace</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="dataButton">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="data" resource="../resource/resources.qrc">
+         <normaloff>:/icon/data.png</normaloff>:/icon/data.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="taskButton">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="task" resource="../resource/resources.qrc">
+         <normaloff>:/icon/task.png</normaloff>:/icon/task.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="informationLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>219</y>
+      <width>210</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QScrollBar" name="verticalScrollBar">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>270</y>
+      <width>16</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="accuracyButton">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>570</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>Accuracy</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="levelLabel">
+    <property name="geometry">
+     <rect>
+      <x>855</x>
+      <y>400</y>
+      <width>100</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Ubuntu Condensed</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border:3px;
+border-radius:40px;
+</string>
+    </property>
+    <property name="text">
+     <string>Level</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1Name">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>20</y>
+      <width>140</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>  Network1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2Name">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>20</y>
+      <width>140</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>  Network2</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AverageLabel">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>360</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(94, 226, 177);</string>
+    </property>
+    <property name="text">
+     <string>Average IoU : </string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2AverageLabel">
+    <property name="geometry">
+     <rect>
+      <x>1390</x>
+      <y>360</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(94, 226, 177);</string>
+    </property>
+    <property name="text">
+     <string>Average IoU : </string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="acceptButton">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>400</y>
+      <width>210</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="accept" resource="../resource/resources.qrc">
+      <normaloff>:/icon/accept.png</normaloff>:/icon/accept.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>90</width>
+      <height>90</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rejectButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>400</y>
+      <width>210</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="reject" resource="../resource/resources.qrc">
+      <normaloff>:/icon/reject.png</normaloff>:/icon/reject.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>90</width>
+      <height>90</height>
+     </size>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="dataList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>260</y>
+      <width>211</width>
+      <height>301</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="detailButton">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>510</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../resource/resources.qrc">
+      <normaloff>:/icon/detail.png</normaloff>:/icon/detail.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>440</y>
+      <width>371</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="net1Layout2"/>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>1210</x>
+      <y>440</y>
+      <width>371</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="net2Layout2"/>
+   </widget>
+   <widget class="QLabel" name="net1AP">
+    <property name="geometry">
+     <rect>
+      <x>349</x>
+      <y>400</y>
+      <width>250</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(255, 84, 113);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2AP">
+    <property name="geometry">
+     <rect>
+      <x>1330</x>
+      <y>400</y>
+      <width>250</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(255, 84, 113);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2AP_2">
+    <property name="geometry">
+     <rect>
+      <x>1210</x>
+      <y>400</y>
+      <width>110</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>Net2's mAP</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_2">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>400</y>
+      <width>110</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>Net1's mAP</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="thSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>160</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="prefix">
+     <string/>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="singleStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>60</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Threshold</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>10</y>
+      <width>671</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="net1Layout1"/>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>10</y>
+      <width>671</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="net2Layout1"/>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>609</x>
+      <y>509</y>
+      <width>591</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="gtLayout"/>
+   </widget>
+   <widget class="QLabel" name="net1BG">
+    <property name="geometry">
+     <rect>
+      <x>227</x>
+      <y>7</y>
+      <width>676</width>
+      <height>386</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2BG">
+    <property name="geometry">
+     <rect>
+      <x>907</x>
+      <y>7</y>
+      <width>676</width>
+      <height>386</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gtBG">
+    <property name="geometry">
+     <rect>
+      <x>607</x>
+      <y>507</y>
+      <width>596</width>
+      <height>336</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="informationLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>210</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Number of Data in Directory</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>620</y>
+      <width>211</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="lodLayout"/>
+   </widget>
+   <widget class="QLabel" name="net1BG_2">
+    <property name="geometry">
+     <rect>
+      <x>227</x>
+      <y>437</y>
+      <width>376</width>
+      <height>406</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2BG_2">
+    <property name="geometry">
+     <rect>
+      <x>1207</x>
+      <y>437</y>
+      <width>376</width>
+      <height>406</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1BG_3">
+    <property name="geometry">
+     <rect>
+      <x>7</x>
+      <y>617</y>
+      <width>216</width>
+      <height>226</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <zorder>gtBG</zorder>
+   <zorder>net1BG_3</zorder>
+   <zorder>net2BG_2</zorder>
+   <zorder>net1BG_2</zorder>
+   <zorder>net2BG</zorder>
+   <zorder>net1BG</zorder>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>informationLabel</zorder>
+   <zorder>accuracyButton</zorder>
+   <zorder>levelLabel</zorder>
+   <zorder>acceptButton</zorder>
+   <zorder>rejectButton</zorder>
+   <zorder>dataList</zorder>
+   <zorder>verticalScrollBar</zorder>
+   <zorder>horizontalLayoutWidget</zorder>
+   <zorder>horizontalLayoutWidget_2</zorder>
+   <zorder>net1AP</zorder>
+   <zorder>net2AP</zorder>
+   <zorder>net2AP_2</zorder>
+   <zorder>net1AP_2</zorder>
+   <zorder>thSpinBox</zorder>
+   <zorder>label</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>verticalLayoutWidget_2</zorder>
+   <zorder>verticalLayoutWidget_3</zorder>
+   <zorder>net1Name</zorder>
+   <zorder>net1AverageLabel</zorder>
+   <zorder>net2AverageLabel</zorder>
+   <zorder>net2Name</zorder>
+   <zorder>detailButton</zorder>
+   <zorder>informationLabel_2</zorder>
+   <zorder>verticalLayoutWidget_4</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1590</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(241, 245, 248);</string>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout_Acquisition_Helper"/>
+    <addaction name="actionDocumentation"/>
+   </widget>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="statusTip">
+    <string/>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(241, 245, 248);</string>
+   </property>
+  </widget>
+  <action name="actionAbout_Acquisition_Helper">
+   <property name="text">
+    <string>About Verification Helper</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>Documentation</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../resource/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
