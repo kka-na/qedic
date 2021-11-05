@@ -66,9 +66,11 @@ mkdir build && cd build
 cmake .. && make
 ./qedic
 ```
-  
 ## Prepare Data
-Please download the [Inha CVLab 2D Object Detection Sample Data](https://drive.google.com/file/d/1crFGflbWh7Jhk63PV5zP9DCZrnDmeByo/view?usp=sharing), [Inha CVLab 3D Object Detection Sample Data](https://drive.google.com/file/d/1m1D5FXLfNG1hv-UWH1LKVywOztAL7Dno/view?usp=sharing) and organize the downloaded files as follows. 
+Please download the 
+[Inha CVLab 2D Object Detection Sample Data](https://drive.google.com/file/d/1m1D5FXLfNG1hv-UWH1LKVywOztAL7Dno/view?usp=sharing), 
+[Inha CVLab 2D Semantic Segmentation Sample Data](https://drive.google.com/file/d/14-WE2bqbkh5x4a_oIXXKeeCkM-4bCbAc/view?usp=sharing), 
+[Inha CVLab 3D Object Detection Sample Data](https://drive.google.com/file/d/1crFGflbWh7Jhk63PV5zP9DCZrnDmeByo/view?usp=sharing) and organize the downloaded files as follows. 
 
    ```
     sample_data_2D
