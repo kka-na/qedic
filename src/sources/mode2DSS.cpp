@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMetaType>
 #include <QtCharts/QChartView>
+#include <QCoreApplication>
 
 #include <jsoncpp/json/json.h>
  
@@ -50,8 +51,7 @@ void mode2DSS::setPolygons(){
     QImage net2_img(net2_now_img_data_path);
     emit sendNet2Img(net2_img);
     met2DSS->calcMetricbyFrame(gt_img, net1_img, net2_img);
-    //pair<float, float> avg_iou = met2DSS->returnAvgIOU();
-    //emit sendAvgIOU((avg_iou.first)*100, (avg_iou.second)*100);
+
 }
 
 void mode2DSS::setClassList(){
@@ -70,7 +70,10 @@ void mode2DSS::setClassList(){
 
 void mode2DSS::calcAccuracy(){
     met2DSS->threshold = float(this->threshold)/100;
+    emit sendStart();
+    QCoreApplication::processEvents();
     met2DSS->calcMetrics();
+    emit sendStop();
 }
 
 

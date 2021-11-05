@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="200" height="200" src="https://user-images.githubusercontent.com/69347961/139665124-9a8fd604-9dbb-4ff8-9b71-3f2166e55364.png"/>
+</p>
+
 # QEDiC
 Quality Evaluation and Difficulty Classification of your Deep-Learning Model's Prediction Result and Ground Truth Data. 
 
@@ -56,15 +60,16 @@ sudo cp qwt~ /usr/local/
 
 ## Installation
 ```
-git clone https://github.com/kka-na/verifyHelper.git
-cd verifyHelper
+git clone https://github.com/kka-na/qedic.git
+cd qedic
 mkdir build && cd build
 cmake .. && make
-./verifyhelper
+./qedic
 ```
   
 ## Prepare Data
 Please download the [Inha CVLab 2D Object Detection Sample Data](https://drive.google.com/file/d/1crFGflbWh7Jhk63PV5zP9DCZrnDmeByo/view?usp=sharing), [Inha CVLab 3D Object Detection Sample Data](https://drive.google.com/file/d/1m1D5FXLfNG1hv-UWH1LKVywOztAL7Dno/view?usp=sharing) and organize the downloaded files as follows. 
+
    ```
     sample_data_2D
     ├── gt
@@ -83,4 +88,8 @@ Please download the [Inha CVLab 2D Object Detection Sample Data](https://drive.g
     │   ├── label
     │   │   │── labels(.txt)
     ├── classes.txt
-    ```
+  ```
+
+## See this video for 'QEDiC' test running. 
+
+[![Quality Evaluation & Difficulty Classification for AV Data System Testing Video](http://img.youtube.com/vi/FSMZFGWOtNg/0.jpg)](https://youtu.be/FSMZFGWOtNg) 

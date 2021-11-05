@@ -93,6 +93,8 @@ void MainWindow::setEachTasks(){
 		connect(ss2d, SIGNAL(sendGTImg(QImage)), this, SLOT(setGTImage(QImage)));
 		connect(ss2d, SIGNAL(sendNet1Img(QImage)), this, SLOT(setNet1Image(QImage)));
 		connect(ss2d, SIGNAL(sendNet2Img(QImage)), this, SLOT(setNet2Image(QImage)));
+		connect(ss2d, SIGNAL(sendStart()), this, SLOT(setLoadingMovie()));
+		connect(ss2d, SIGNAL(sendStop()), this, SLOT(stopLoadingMovie()));
 		connect(ss2d->met2DSS, SIGNAL(sendmIOUs(float, float)), this, SLOT(setmAPs(float, float)));
 		connect(ss2d->met2DSS, SIGNAL(sendNetIOUs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
 		connect(ss2d->met2DSS, SIGNAL(sendAvgIOU(float, float)), this, SLOT(setAvgIOU(float, float)));
@@ -176,7 +178,7 @@ void MainWindow::set2DSSLayouts(){
 	net2Label = new QLabel(this);
 	ui->gtLayout->addWidget(gtLabel);
 	ui->net1Layout1->addWidget(net1Label);
-	ui->net2Layout1->addWidget(net2Label);
+	ui->net2Layout1->addWidget(net2Label);	
 }
 
 void MainWindow::set3DODLayouts(){
@@ -198,24 +200,52 @@ void MainWindow::set3DODLayouts(){
 	vtkW2->init();
 }
 
+void MainWindow::setLoadingMovie(){
+	loadingLabel = new QLabel(this);
+	loadingLabel->resize(100, 40); 
+	loadingLabel->setStyleSheet("background-color: rgb(61, 67, 87);color: rgb(226, 230, 235);");
+	loadingLabel->move(855,450);
+	loadingLabel->setAlignment(Qt::AlignCenter);
+	/*
+	movie = new QMovie(":/gif/loader.gif");
+	loadingLabel->setMovie(movie);
+	movie->start();
+	*/
+	loadingLabel->setText("Processing . . .");
+	loadingLabel->show();
+}
+
+void MainWindow::stopLoadingMovie(){
+	//movie->stop();
+	loadingLabel->hide();
+}
+
+void clearLayout(QLayout *layout){
+	if(layout == NULL)
+		return;
+	while(QLayoutItem *item = layout->takeAt(0)){
+		if(item->layout()){
+			clearLayout(item->layout());
+			delete item->layout();
+		}
+		if(item->widget()){
+			delete item->widget();
+		}
+		delete item;
+	}
+}
+
 void MainWindow::clearLayouts(){
-	while(QLayoutItem *wItem =ui->gtLayout->takeAt(0))
-		delete wItem;
-	while(QLayoutItem *wItem =ui->net1Layout1->takeAt(0))
-		delete wItem;
-	while(QLayoutItem *wItem =ui->net2Layout1->takeAt(0))
-		delete wItem;
-	while(QLayoutItem *wItem =ui->net1Layout2->takeAt(0))
-		delete wItem; 
-	while(QLayoutItem *wItem =ui->net2Layout2->takeAt(0))
-		delete wItem;
-	while(QLayoutItem *wItem =ui->lodLayout->takeAt(0))
-		delete wItem;
+	clearLayout(ui->gtLayout);
+	clearLayout(ui->net1Layout1); clearLayout(ui->net1Layout2);
+	clearLayout(ui->net2Layout1); clearLayout(ui->net2Layout2);
+	clearLayout(ui->lodLayout);
 	ui->dataList->clear();
 	ui->net1AverageLabel->clear();
 	ui->net2AverageLabel->clear();
 	ui->net1AP->clear();
 	ui->net2AP->clear();
+	ui->levelLabel->clear();
 }
 
 void MainWindow::setListIdx(QListWidgetItem *qi){

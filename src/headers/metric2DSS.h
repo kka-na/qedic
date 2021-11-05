@@ -7,7 +7,6 @@
 #include <QStringList>
 #include <QObject>
 
-
 using namespace std;
 
 class Metric2DSS : public QThread{
@@ -31,12 +30,12 @@ public:
     int class_cnt; 
     vector<pair<string,string>> class_list;
     float threshold;
-
+     
 private:
     int* convHextoRGB(string);
     void initialConfVec();
     int getClassIDbyRGB(int, int, int);
-    vector<pair<QString, float>> calcIOUbyClass(vector<long long>);
+    vector<pair<QString, float>> calcIOUbyClass(vector<int>);
     float getAverageIOU(vector<pair<QString, float>>);
     
 private:

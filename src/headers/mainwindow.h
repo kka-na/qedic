@@ -76,6 +76,8 @@ private slots:
     void setNet2Image(QImage);
     void setGTPCD(QString, vector<BBoxes::BBox3D>);
     void setAvgIOU(float, float);
+    void setLoadingMovie();
+    void stopLoadingMovie();
     void setmAPs(float, float);
     void setNetAPs(int, vector<pair<QString, float>>);
     void setAvgIOUs(vector<float>, vector<float>);
@@ -95,6 +97,8 @@ private:
     QLabel* gtLabel;
     QLabel* net1Label;
     QLabel* net2Label;
+    QLabel* loadingLabel;
+    QMovie* movie;
     
 };
 #endif //MAINWINDOW_H

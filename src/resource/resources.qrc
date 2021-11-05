@@ -14,5 +14,6 @@
     <file>icon/easy.png</file>
     <file>icon/moderate.png</file>
     <file>icon/hard.png</file>
+    <file>gif/loader.gif</file>
   </qresource>
 </RCC>

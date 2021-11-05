@@ -22,6 +22,7 @@ public:
     int class_cnt;
     int threshold;
     Metric2DSS *met2DSS;
+
 private:
     int dir_size;
     string dataset_path;
@@ -30,10 +31,14 @@ private:
     int now_data_index;
     string now_img_data_name;
     QString net1_now_img_data_path, net2_now_img_data_path, gt_now_img_data_path;
+
 private:
     void setPolygons();
     void setClassList();
+
 signals:
+    void sendStart();
+    void sendStop();
     void sendGTImg(QImage);
     void sendNet1Img(QImage);
     void sendNet2Img(QImage);

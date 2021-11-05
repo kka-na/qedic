@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 
 project(qedic)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
@@ -69,7 +69,7 @@ find_package(VTK REQUIRED PATHS ${VTK_DIR})
 find_package(OpenGL)
 find_package(GLEW)
 
-find_package (OpenCV REQUIRED)
+find_package (OpenCV REQUIRED PATHS ${OpenCV_DIR})
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 set(OPEN3D_DIR "~/Open3D/build/lib/cmake")
@@ -112,7 +112,6 @@ add_executable(qedic
 
 
 target_link_libraries(qedic ${OpenCV_LIBRARIES} 
-    opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs
     Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Charts Qt5::OpenGL
     ${QWT_LIBRARIES} ${VTK_LIBRARIES} Open3D::Open3D
     OpenGL::GL GLEW::GLEW
