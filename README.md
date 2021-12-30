@@ -66,32 +66,65 @@ mkdir build && cd build
 cmake .. && make
 ./qedic
 ```
+
 ## Prepare Data
 Please download the 
-[Inha CVLab 2D Object Detection Sample Data](https://drive.google.com/file/d/1m1D5FXLfNG1hv-UWH1LKVywOztAL7Dno/view?usp=sharing), 
-[Inha CVLab 2D Semantic Segmentation Sample Data](https://drive.google.com/file/d/14-WE2bqbkh5x4a_oIXXKeeCkM-4bCbAc/view?usp=sharing), 
-[Inha CVLab 3D Object Detection Sample Data](https://drive.google.com/file/d/1crFGflbWh7Jhk63PV5zP9DCZrnDmeByo/view?usp=sharing) and organize the downloaded files as follows. 
+[Inha CVLab 2D Object Detection Sample Data](https://drive.google.com/file/d/1ZjGe4H0CAM18hRnk-JdDsuESKcryH4qB/view?usp=sharing), 
+[Inha CVLab 2D Semantic Segmentation Sample Data](https://drive.google.com/file/d/13J5iwSPK8i6tRvTEdffpQ-mb19ZNpZ5D/view?usp=sharing), 
+[Inha CVLab 3D Object Detection Sample Data](https://drive.google.com/file/d/13M64Sy8OkjuBaKdljpvCwo-Bx4cqENZ4/view?usp=sharing) and organize the downloaded files as follows. 
 
-   ```
-    sample_data_2D
+2D Object Detection Test Data
+  ```
+    2DOD
     ├── gt
     │   ├── data
-    │   │   │── images(.jpeg / .png) <- change pcd files if testing 3D
+    │   │   │── images(.jpg / .png)
     │   ├── label
     │   │   │── labels(.txt)
     ├── net1
-    │   ├── data
-    │   │   │── images(.jpeg / .png) 
     │   ├── label
     │   │   │── labels(.txt)
     ├── net2
-    │   ├── data
-    │   │   │── images(.jpeg / .png) 
     │   ├── label
     │   │   │── labels(.txt)
     ├── classes.txt
+    ├── verified
+  ```
+
+2D Semantic Segmentation Test Data
+  ```
+    2DSS
+    ├── gt
+    │   ├── data
+    │   │   │── images(.jpg / .png) <- panaoptic images
+    ├── net1
+    │   ├── data
+    │   │   │── images(.jpg / .png)
+    ├── net2
+    │   ├── data
+    │   │   │── images(.jpg / .png)
+    ├── classes.json
+    ├── verified
+  ```
+
+3D Object Detection Test Data
+  ```
+    3DOD
+    ├── gt
+    │   ├── data
+    │   │   │── point clouds(.pcd)
+    │   ├── label
+    │   │   │── labels(.json) <- sustecpoints format
+    ├── net1
+    │   ├── label
+    │   │   │── labels(.json)
+    ├── net2
+    │   ├── label
+    │   │   │── labels(.json)
+    ├── classes.txt
+    ├── verified
   ```
 
 ## See this video for 'QEDiC' test running. 
 
-[![Quality Evaluation & Difficulty Classification for AV Data System Testing Video](http://img.youtube.com/vi/FSMZFGWOtNg/0.jpg)](https://youtu.be/FSMZFGWOtNg) 
+[![Quality Evaluation & Difficulty Classification for AV Data System Testing Video](http://img.youtube.com/vi/duN7ffTMTec/0.jpg)](https://youtu.be/duN7ffTMTec) 
