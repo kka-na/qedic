@@ -105,7 +105,7 @@ void Metric2DSS::calcMetrics(){
     int net1_cls_num = 0;
     float net1_cls_iou_sum = 0.0;
     for(size_t i=0; i<net1_ious.size(); i++){
-        if(net1_ious[i].second > 0.0){
+        if(net1_ious[i].first.toStdString() != "undefined" && net1_ious[i].second > 0.0){
             net1_cls_num ++;
             net1_cls_iou_sum = net1_cls_iou_sum + net1_ious[i].second;
         }
@@ -114,7 +114,7 @@ void Metric2DSS::calcMetrics(){
     int net2_cls_num = 0;
     float net2_cls_iou_sum = 0.0;
     for(size_t i=0; i<net2_ious.size(); i++){
-        if(net2_ious[i].second > 0.0){
+        if(net2_ious[i].first.toStdString() != "undefined" && net2_ious[i].second > 0.0){
             net2_cls_num ++;
             net2_cls_iou_sum = net2_cls_iou_sum + net2_ious[i].second;
         }

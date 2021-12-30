@@ -28,7 +28,7 @@ void mode2DSS::setData(string _dataset_path){
     
     QDir gt_data_dir(gt_data_path);
 
-	img_data_list = gt_data_dir.entryList(QStringList() << "*.png");
+	img_data_list = gt_data_dir.entryList(QStringList() << "*.png" << "*.jpg");
 	dir_size = img_data_list.size();
     emit sendImgList(img_data_list);
     met2DSS->setPaths(img_data_list, gt_data_path, net1_data_path, net2_data_path);
@@ -43,6 +43,19 @@ void mode2DSS::setData(string _dataset_path){
     setPolygons();
 }
 
+void mode2DSS::saveAccept(string storage_path){
+    QFile::copy(gt_now_img_data_path,QString::fromStdString(storage_path+"/accept/gt/data/"+now_img_data_name)); 
+    QFile::copy(net1_now_img_data_path, QString::fromStdString(storage_path+"/accept/net1/data/"+now_img_data_name));
+    QFile::copy(net2_now_img_data_path, QString::fromStdString(storage_path+"/accept/net2/data/"+now_img_data_name));
+}
+
+void mode2DSS::saveReject(string storage_path){
+    QFile::copy(gt_now_img_data_path,QString::fromStdString(storage_path+"/reject/gt/data/"+now_img_data_name)); 
+    QFile::copy(net1_now_img_data_path, QString::fromStdString(storage_path+"/reject/net1/data/"+now_img_data_name));
+    QFile::copy(net2_now_img_data_path, QString::fromStdString(storage_path+"/reject/net2/data/"+now_img_data_name));
+}
+
+
 void mode2DSS::setPolygons(){
 	QImage gt_img(gt_now_img_data_path);
     emit sendGTImg(gt_img);
@@ -51,7 +64,6 @@ void mode2DSS::setPolygons(){
     QImage net2_img(net2_now_img_data_path);
     emit sendNet2Img(net2_img);
     met2DSS->calcMetricbyFrame(gt_img, net1_img, net2_img);
-
 }
 
 void mode2DSS::setClassList(){

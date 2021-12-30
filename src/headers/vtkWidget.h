@@ -40,7 +40,7 @@ public:
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor;
 
 private:
-    void dispPointCloud(string, vector<BBoxes::Corners3D>, vector<int>);
+    void dispPointCloud(string, vector<BBoxes::Corners3D>, vector<BBoxes::Corner3D>, vector<float>, vector<int>);
     vtkSmartPointer<vtkUnstructuredGrid> MakeHexa(BBoxes::Corners3D);
     double* getColors(int);
 

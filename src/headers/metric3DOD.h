@@ -1,5 +1,5 @@
-#ifndef Metric3D_H
-#define Metric3D_H
+#ifndef Metric3DOD_H
+#define Metric3DOD_H
 #pragma once
 
 #include <QThread>
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Metric3D : public QThread{
+class Metric3DOD : public QThread{
     Q_OBJECT
 public:
     QString now_pcd_data_path;
@@ -18,10 +18,10 @@ public:
     float threshold;
 
 public:
-    Metric3D(QObject *parent = 0);
+    Metric3DOD(QObject *parent = 0);
     BBoxes clsBBoxes;
     void setPaths(string);
-    vector<BBoxes::BBox3D> getLabelVector(QString);
+    vector<BBoxes::BBox3D> getLabelVector(int,QString);
     pair<float, float> returnAvgIOU(vector<BBoxes::BBox3D>, vector<BBoxes::BBox3D>, vector<BBoxes::BBox3D>);
     void calcMetrics();
 
@@ -34,15 +34,17 @@ private:
     vector<pair<float, float>>* cls_pr1;
     vector<pair<float, float>>* cls_pr2;
     int* cls_gt;
+    vector<pair<int, int>> cls_tpfp1;
+    vector<pair<int, int>> cls_tpfp2;
+
 
 
 private:
     int getIdxbyCls(string);
     vector<pair<int, float>> calcIOUwithNetandGT(vector<BBoxes::BBox3D>,vector<BBoxes::BBox3D>);
-    float getIOU(BBoxes::BBox3D, BBoxes::BBox3D);
-    pair<float, float> calcXY(BBoxes::Corner3D, BBoxes::Corner3D, BBoxes::Corner3D, BBoxes::Corner3D);
-    void accTPFP(int, vector<pair<int, float>>, float);
-    float calcAP(int);
+    float calcIOU(BBoxes::BBox3D, BBoxes::BBox3D);
+    pair<float, float> calcXY(int, BBoxes::Corner3D, BBoxes::Corner3D, BBoxes::Corner3D, BBoxes::Corner3D);
+    void accTPFP(int, vector<pair<int, float>>);
     vector<pair<QString, float>> calcAPbyClass(vector<pair<float, float>>*);
     float getAverageIOU(vector<pair<int, float>>);
     bool checkIndex(vector<int>, int);
@@ -54,7 +56,7 @@ signals:
     void sendAvgIOUs(vector<float>, vector<float>);
 
 public:
-    ~Metric3D();
+    ~Metric3DOD();
 
 };
 

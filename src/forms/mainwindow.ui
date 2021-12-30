@@ -189,19 +189,6 @@ border-color: rgb(61, 67, 87);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QScrollBar" name="verticalScrollBar">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>270</y>
-      <width>16</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
    <widget class="QPushButton" name="accuracyButton">
     <property name="geometry">
      <rect>
@@ -354,6 +341,9 @@ color: rgb(94, 226, 177);</string>
       <height>90</height>
      </size>
     </property>
+    <property name="shortcut">
+     <string>Z</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="rejectButton">
     <property name="enabled">
@@ -385,6 +375,9 @@ color: rgb(94, 226, 177);</string>
       <width>90</width>
       <height>90</height>
      </size>
+    </property>
+    <property name="shortcut">
+     <string>C</string>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -430,9 +423,9 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>440</y>
+      <y>460</y>
       <width>371</width>
-      <height>401</height>
+      <height>381</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="net1Layout2"/>
@@ -441,9 +434,9 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>1210</x>
-      <y>440</y>
+      <y>460</y>
       <width>371</width>
-      <height>401</height>
+      <height>381</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="net2Layout2"/>
@@ -451,8 +444,8 @@ color: rgb(94, 226, 177);</string>
    <widget class="QLabel" name="net1AP">
     <property name="geometry">
      <rect>
-      <x>349</x>
-      <y>400</y>
+      <x>350</x>
+      <y>440</y>
       <width>250</width>
       <height>30</height>
      </rect>
@@ -478,7 +471,7 @@ color: rgb(255, 84, 113);</string>
     <property name="geometry">
      <rect>
       <x>1330</x>
-      <y>400</y>
+      <y>440</y>
       <width>250</width>
       <height>30</height>
      </rect>
@@ -507,7 +500,7 @@ color: rgb(255, 84, 113);</string>
     <property name="geometry">
      <rect>
       <x>1210</x>
-      <y>400</y>
+      <y>440</y>
       <width>110</width>
       <height>30</height>
      </rect>
@@ -529,8 +522,8 @@ color: rgb(226, 230, 235);</string>
    <widget class="QLabel" name="net1AP_2">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>400</y>
+      <x>231</x>
+      <y>440</y>
       <width>110</width>
       <height>30</height>
      </rect>
@@ -757,6 +750,110 @@ border-color: rgb(61, 67, 87);</string>
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QLabel" name="net2AP_3">
+    <property name="geometry">
+     <rect>
+      <x>1210</x>
+      <y>400</y>
+      <width>201</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>Accuaracy Achievement</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2AP_4">
+    <property name="geometry">
+     <rect>
+      <x>1419</x>
+      <y>400</y>
+      <width>161</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(94, 226, 177);</string>
+    </property>
+    <property name="text">
+     <string>Net2's Achievement</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_3">
+    <property name="geometry">
+     <rect>
+      <x>231</x>
+      <y>400</y>
+      <width>201</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>Accuaracy Achievement</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_4">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>400</y>
+      <width>161</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(94, 226, 177);</string>
+    </property>
+    <property name="text">
+     <string>Net1's Achievement</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>gtBG</zorder>
    <zorder>net1BG_3</zorder>
    <zorder>net2BG_2</zorder>
@@ -770,13 +867,8 @@ border-color: rgb(61, 67, 87);</string>
    <zorder>acceptButton</zorder>
    <zorder>rejectButton</zorder>
    <zorder>dataList</zorder>
-   <zorder>verticalScrollBar</zorder>
    <zorder>horizontalLayoutWidget</zorder>
    <zorder>horizontalLayoutWidget_2</zorder>
-   <zorder>net1AP</zorder>
-   <zorder>net2AP</zorder>
-   <zorder>net2AP_2</zorder>
-   <zorder>net1AP_2</zorder>
    <zorder>thSpinBox</zorder>
    <zorder>label</zorder>
    <zorder>verticalLayoutWidget</zorder>
@@ -789,6 +881,14 @@ border-color: rgb(61, 67, 87);</string>
    <zorder>detailButton</zorder>
    <zorder>informationLabel_2</zorder>
    <zorder>verticalLayoutWidget_4</zorder>
+   <zorder>net1AP_2</zorder>
+   <zorder>net1AP</zorder>
+   <zorder>net2AP</zorder>
+   <zorder>net2AP_2</zorder>
+   <zorder>net2AP_3</zorder>
+   <zorder>net2AP_4</zorder>
+   <zorder>net1AP_3</zorder>
+   <zorder>net1AP_4</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -5,6 +5,7 @@ class BBoxes{
 public:
     struct BBox2D{
         int cls;
+        float conf;
         int w;
         int h;
         int lx; 
@@ -16,12 +17,14 @@ public:
     };
     struct BBox3D{
         int cls;
+        float conf;
         float cx;
         float cy;
         float cz;
         float dx; //width
         float dy; //length
         float dz; //height
+        float yaw;
     };
 
     struct Corner3D{

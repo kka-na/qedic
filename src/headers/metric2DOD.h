@@ -1,5 +1,5 @@
-#ifndef Metric2D_H
-#define Metric2D_H
+#ifndef Metric2DOD_H
+#define Metric2DOD_H
 #pragma once
 
 #include <QThread>
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Metric2D : public QThread{
+class Metric2DOD : public QThread{
     Q_OBJECT
 public:
     QString now_img_data_path;
@@ -19,7 +19,7 @@ public:
     float threshold;
 
 public:
-    Metric2D(QObject *parent = 0);
+    Metric2DOD(QObject *parent = 0);
     void setPaths(string);
     vector<BBoxes::BBox2D> getLabelVector(QString);
     pair<float, float> returnAvgIOU(vector<BBoxes::BBox2D>, vector<BBoxes::BBox2D>, vector<BBoxes::BBox2D>);
@@ -35,17 +35,19 @@ private:
     vector<pair<float, float>>* cls_pr1;
     vector<pair<float, float>>* cls_pr2;
     int* cls_gt;
+    vector<pair<int, int>> cls_tpfp1;
+    vector<pair<int, int>> cls_tpfp2;
 
 
 private:
     vector<pair<int, float>> calcIOUwithNetandGT(vector<BBoxes::BBox2D>,vector<BBoxes::BBox2D>);
     float calcIOU(BBoxes::BBox2D, BBoxes::BBox2D);
-    void accTPFP(int, vector<pair<int, float>>, float);
-    float calcAP(int);
+    void accTPFP(int, vector<pair<int, float>>);
     vector<pair<QString, float>> calcAPbyClass(vector<pair<float, float>>*);
     float getAverageIOU(vector<pair<int, float>>);
     bool checkIndex(vector<int>, int);
     void initializeVecArray(vector<pair<float, float>>*);
+
 
 signals:
     void sendmAPs(float, float);
@@ -53,7 +55,7 @@ signals:
     void sendAvgIOUs(vector<float>, vector<float>);
 
 public:
-    ~Metric2D();
+    ~Metric2DOD();
 
 };
 

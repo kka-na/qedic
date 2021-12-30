@@ -56,11 +56,14 @@ private:
 
     float avg_net1, avg_net2;
 
+    float net1_achieve, net2_achieve;
+
 private:
     void setFunction();
     void setEachTasks();
     int getLOD(float, float);
     void setLOD();
+    void setAchieve(float, float);
     void set2DODLayouts();
     void set2DSSLayouts();
     void set3DODLayouts();

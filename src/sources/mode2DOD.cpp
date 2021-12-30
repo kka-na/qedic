@@ -10,9 +10,10 @@
 #include <QDebug>
 #include <QMetaType>
 #include <QtCharts/QChartView>
+#include <QCoreApplication>
 
 mode2DOD::mode2DOD(QObject *parent) : QThread(parent){
-    met2D = new Metric2D(this);
+    met2DOD = new Metric2DOD(this);
 }
 
 void mode2DOD::setData(string _dataset_path, QString _data_path, QString _label_path){
@@ -20,12 +21,12 @@ void mode2DOD::setData(string _dataset_path, QString _data_path, QString _label_
     data_path = _data_path;
     label_path = _label_path;
     
-    met2D->setPaths(dataset_path);
+    met2DOD->setPaths(dataset_path);
 
     QDir gt_data_dir(data_path);
 	QDir gt_label_dir(label_path);
 
-	img_data_list = gt_data_dir.entryList(QStringList() << "*.png");
+	img_data_list = gt_data_dir.entryList(QStringList() << "*.png" << "*.jpg");
 	label_data_list = gt_label_dir.entryList(QStringList() << "*.txt");
 	dir_size = img_data_list.size();
     emit sendImgList(img_data_list);
@@ -37,41 +38,61 @@ void mode2DOD::setData(string _dataset_path, QString _data_path, QString _label_
     setBoxes();
 }
 
+void mode2DOD::saveAccept(string storage_path){
+    QFile::copy(now_img_data_path,QString::fromStdString(storage_path+"/accept/gt/data/"+now_img_data_name)); 
+    QFile::copy(gt_label_path,QString::fromStdString(storage_path+"/accept/gt/label/"+now_label_data_name)); 
+    QFile::copy(net1_label_path, QString::fromStdString(storage_path+"/accept/net1/label/"+now_label_data_name));
+    QFile::copy(net2_label_path, QString::fromStdString(storage_path+"/accept/net2/label/"+now_label_data_name));
+}
+
+void mode2DOD::saveReject(string storage_path){
+    QFile::copy(now_img_data_path,QString::fromStdString(storage_path+"/reject/gt/data/"+now_img_data_name)); 
+    QFile::copy(gt_label_path,QString::fromStdString(storage_path+"/reject/gt/label/"+now_label_data_name)); 
+    QFile::copy(net1_label_path, QString::fromStdString(storage_path+"/reject/net1/label/"+now_label_data_name));
+    QFile::copy(net2_label_path, QString::fromStdString(storage_path+"/reject/net2/label/"+now_label_data_name));
+}
+
 void mode2DOD::calcAccuracy(){
-    met2D->class_list = class_list;
-    met2D->threshold = float(this->threshold)/100;
-    met2D->calcMetrics();
+    met2DOD->class_list = class_list;
+    met2DOD->threshold = float(this->threshold)/100;
+    emit sendStart();
+    QCoreApplication::processEvents();
+    met2DOD->calcMetrics();
+    emit sendStop();
 }
 
 void mode2DOD::setBoxes(){
-    met2D->now_img_data_path = now_img_data_path; 
+    met2DOD->now_img_data_path = now_img_data_path; 
 	gt_label_path = QString::fromStdString(dataset_path+"/gt/label/"+now_label_data_name);
-	vector<BBoxes::BBox2D> vecGT = met2D->getLabelVector(gt_label_path);
+	vector<BBoxes::BBox2D> vecGT = met2DOD->getLabelVector(gt_label_path);
     drawBoxes(0, vecGT);
 	net1_label_path = QString::fromStdString(dataset_path+"/net1/label/"+now_label_data_name);	
-	vector<BBoxes::BBox2D> vecNet1 = met2D->getLabelVector(net1_label_path);
+	vector<BBoxes::BBox2D> vecNet1 = met2DOD->getLabelVector(net1_label_path);
     drawBoxes(1, vecNet1);
 	net2_label_path = QString::fromStdString(dataset_path+"/net2/label/"+now_label_data_name);
-	vector<BBoxes::BBox2D> vecNet2 = met2D->getLabelVector(net2_label_path);
+	vector<BBoxes::BBox2D> vecNet2 = met2DOD->getLabelVector(net2_label_path);
     drawBoxes(2, vecNet2);
-    pair<float, float> avg_iou = met2D->returnAvgIOU(vecGT, vecNet1, vecNet2);
+    pair<float, float> avg_iou = met2DOD->returnAvgIOU(vecGT, vecNet1, vecNet2);
     emit sendAvgIOU((avg_iou.first)*100, (avg_iou.second)*100);
 }
 
 
 void mode2DOD::drawBoxes(int type, vector<BBoxes::BBox2D> bboxes){
     QImage target_img(now_img_data_path);
-    QPainter *painter = new QPainter(&target_img);
-    QFont f("Helvetica [Cronyx]", 30, QFont::Bold); 
-
-    for(size_t i=0; i<bboxes.size(); i++) {
-        QPen pen = this->getBBoxPen(bboxes[i].cls);        
-        painter->setPen(pen);
-        QRect qrect = QRect(bboxes[i].lx,bboxes[i].ly, bboxes[i].w, bboxes[i].h);
-        painter->drawRect(qrect);
-        painter->setFont(f);
-        QString class_name = class_list.at(bboxes[i].cls);
-        painter->drawText(bboxes[i].lx, bboxes[i].ly-10, class_name);
+    if(bboxes[0].cls!=-1){
+        QPainter *painter = new QPainter(&target_img);
+        int fsize = target_img.height()/30;
+        QFont f("Helvetica [Cronyx]", fsize); 
+        for(size_t i=0; i<bboxes.size(); i++) {
+            QPen pen = this->getBBoxPen(bboxes[i].cls);        
+            painter->setPen(pen);
+            QRect qrect = QRect(bboxes[i].lx,bboxes[i].ly, bboxes[i].w, bboxes[i].h);
+            painter->drawRect(qrect);
+            painter->setFont(f);
+            QString class_name = class_list.at(bboxes[i].cls);
+            painter->drawText(bboxes[i].lx, bboxes[i].ly-10, class_name);
+        }
+        painter->end();
     }
     if(type==0){
         emit sendGTImg(target_img);
@@ -80,12 +101,12 @@ void mode2DOD::drawBoxes(int type, vector<BBoxes::BBox2D> bboxes){
     }else if(type==2){
         emit sendNet2Img(target_img);
     }
-    painter->end();
+    
 }
 
 void mode2DOD::setThreshold(int _th){
     this->threshold = _th;
-    met2D->threshold = float(this->threshold)/100;
+    met2DOD->threshold = float(this->threshold)/100;
 }
 
 void mode2DOD::setDataIdx(int idx){
@@ -126,7 +147,7 @@ void mode2DOD::setClassName(){
         class_list << line;
         class_cnt ++;
     }
-    met2D->class_cnt = class_cnt;
+    met2DOD->class_cnt = class_cnt;
 }
 
 QPen mode2DOD::getBBoxPen(int class_num){

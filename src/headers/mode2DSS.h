@@ -18,6 +18,8 @@ class mode2DSS : public QThread
 public:
     explicit mode2DSS(QObject *parent = 0);
     void setData(string);
+    void saveAccept(string);
+    void saveReject(string);
     vector<pair<string,string>> class_list;
     int class_cnt;
     int threshold;

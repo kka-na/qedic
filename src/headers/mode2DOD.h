@@ -2,7 +2,8 @@
 #define MODE2DOD_h
 #pragma once
 
-#include "metric2D.h"
+#include "metric2DOD.h"
+ 
 
 #include <QThread>
 #include <QObject>
@@ -18,11 +19,13 @@ class mode2DOD : public QThread
 public:
     explicit mode2DOD(QObject *parent = 0);
     void setData(string, QString, QString);
+    void saveAccept(string);
+    void saveReject(string);
     int n1_w, n1_h, gt_w, gt_h;
     QStringList class_list;
     int class_cnt;
     int threshold;
-    Metric2D *met2D;
+    Metric2DOD *met2DOD;
 
 private:
     int dir_size;
@@ -47,6 +50,8 @@ private:
     void setClassName();
 
 signals:
+    void sendStart();
+    void sendStop();
     void sendGTImg(QImage);
     void sendNet1Img(QImage);
     void sendNet2Img(QImage);

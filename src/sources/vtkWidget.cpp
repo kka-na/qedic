@@ -31,6 +31,7 @@
 #include <vtkPointSource.h>
 #include <vtkBoundingBox.h>
 #include <vtkCellArray.h>
+#include <vtkTransform.h>
 
 using namespace std;
 
@@ -51,7 +52,7 @@ void vtkWidget::init(){
     this->GetRenderWindow()->AddRenderer(renderer);
 }
 
-void vtkWidget::dispPointCloud(string fileName, vector<BBoxes::Corners3D> corners, vector<int> classes){ 
+void vtkWidget::dispPointCloud(string fileName, vector<BBoxes::Corners3D> corners, vector<BBoxes::Corner3D> positions, vector<float> yaws, vector<int> classes){ 
     //Points 
     defcloud.reset( new open3d::geometry::PointCloud );
     open3d::io::ReadPointCloud(fileName, *defcloud);
@@ -85,11 +86,15 @@ void vtkWidget::dispPointCloud(string fileName, vector<BBoxes::Corners3D> corner
         mappers.push_back(vtkSmartPointer<vtkDataSetMapper>::New());
         actors.push_back(vtkSmartPointer<vtkActor>::New());
         mappers[i]->SetInputData(uGrids[i]);
+        vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
+        transform->Translate(positions[i].x, positions[i].y, positions[i].z);
+        transform->RotateZ(yaws[i]*180/3.141592); //kitti -pi ~ pi
+        transform->Translate(-positions[i].x, -positions[i].y, -positions[i].z);
         actors[i]->SetMapper(mappers[i]);
+        actors[i]->SetUserMatrix(transform->GetMatrix());
         actors[i]->GetProperty()->SetColor(this->getColors(classes[i]));
         actors[i]->GetProperty()->SetOpacity(0.5);
     }
-    
     renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
     renderer->AddActor(actor);
     for(int i=0; i<int(uGrids.size()); i++){
@@ -128,29 +133,43 @@ vtkSmartPointer<vtkUnstructuredGrid> vtkWidget::MakeHexa(BBoxes::Corners3D corne
 void vtkWidget::display_pcd(QString fileName, vector<BBoxes::BBox3D> bboxes){ //Const& ::Ptr
     this->init(); 
     vector<BBoxes::Corners3D> corners;
+    vector<BBoxes::Corner3D> positions;
+    vector<float> yaws;
     vector<int> classes;
     for(int i=0; i<int(bboxes.size()); i++){
         corners.push_back(clsBBoxes.calcCorners(bboxes[i]));
         classes.push_back(bboxes[i].cls);
+        BBoxes::Corner3D pos;
+        pos.x = bboxes[i].cx; pos.y = bboxes[i].cy; pos.z = bboxes[i].cz;
+        positions.push_back(pos);
+        yaws.push_back(bboxes[i].yaw);
     }
-    this->dispPointCloud(fileName.toStdString(), corners, classes);
+    this->dispPointCloud(fileName.toStdString(), corners, positions, yaws, classes);
 
 }
 
 double* vtkWidget::getColors(int cls){
     static double p[3];
-    if (cls % 3 == 0){
+    if (cls % 5 == 0){
         p[0] = double(0.584);
         p[1] = double(0.501);
         p[2] = double(1.0);
-    }else if (cls % 3 == 1){
+    }else if (cls % 5 == 1){
         p[0] = double(0.498);
         p[1] = double(1.0);
         p[2] = double(0.917);
-    }else if (cls %3 == 2){
+    }else if (cls % 5 == 2){
         p[0] = double(0.956);
         p[1] = double(0.498);
         p[2] = double(0.749);
+    }else if (cls % 5 == 3){
+        p[0] = double(1.0);
+        p[1] = double(0.721);
+        p[2] = double(0.423);
+    }else if (cls % 5 == 4){
+        p[0] = double(0.545);
+        p[1] = double(0.913);
+        p[2] = double(0.992);
     }
     return p;
 }

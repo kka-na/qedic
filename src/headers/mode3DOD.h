@@ -2,7 +2,7 @@
 #define MODE3DOD_h
 #pragma once
 
-#include "metric3D.h"
+#include "metric3DOD.h"
 
 #include <QThread>
 #include <QObject>
@@ -18,10 +18,12 @@ class mode3DOD : public QThread
 public:
     explicit mode3DOD(QObject *parent=0);
     void setData(string, QString, QString);
+    void saveAccept(string);
+    void saveReject(string);
     QStringList class_list;
     int class_cnt;
     int threshold;
-    Metric3D *met3D;
+    Metric3DOD *met3DOD;
 
 private:
     int dir_size;

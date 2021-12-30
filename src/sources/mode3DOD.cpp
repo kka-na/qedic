@@ -12,7 +12,7 @@
 #include <QtCharts/QChartView>
 
 mode3DOD::mode3DOD(QObject *parent) : QThread(parent){
-    met3D = new Metric3D(this);
+    met3DOD = new Metric3DOD(this);
 
 }
 
@@ -21,7 +21,7 @@ void mode3DOD::setData(string _dataset_path, QString _data_path, QString _label_
     data_path = _data_path;
     label_path = _label_path;
     
-    met3D->setPaths(dataset_path);
+    met3DOD->setPaths(dataset_path);
 
     QDir gt_data_dir(data_path);
 	QDir gt_label_dir(label_path);
@@ -38,6 +38,20 @@ void mode3DOD::setData(string _dataset_path, QString _data_path, QString _label_
     setBoxes();
 }
 
+void mode3DOD::saveAccept(string storage_path){
+    QFile::copy(now_pcd_data_path, QString::fromStdString(storage_path+"/accept/gt/data/"+now_pcd_data_name)); 
+    QFile::copy(gt_label_path,QString::fromStdString(storage_path+"/accept/gt/label/"+now_label_data_name)); 
+    QFile::copy(net1_label_path, QString::fromStdString(storage_path+"/accept/net1/label/"+now_label_data_name));
+    QFile::copy(net2_label_path, QString::fromStdString(storage_path+"/accept/net2/label/"+now_label_data_name));
+}
+
+void mode3DOD::saveReject(string storage_path){
+    QFile::copy(now_pcd_data_path, QString::fromStdString(storage_path+"/reject/gt/data/"+now_pcd_data_name)); 
+    QFile::copy(gt_label_path,QString::fromStdString(storage_path+"/reject/gt/label/"+now_label_data_name)); 
+    QFile::copy(net1_label_path, QString::fromStdString(storage_path+"/reject/net1/label/"+now_label_data_name));
+    QFile::copy(net2_label_path, QString::fromStdString(storage_path+"/reject/net2/label/"+now_label_data_name));
+}
+
 void mode3DOD::setClassName(){
     string class_path = dataset_path+"/classes.txt";
     QFile class_file(QString::fromStdString(class_path));
@@ -52,28 +66,28 @@ void mode3DOD::setClassName(){
         class_list << line;
         class_cnt ++;
     }
-    met3D->class_cnt = class_cnt;
-    met3D->class_list = class_list;
+    met3DOD->class_cnt = class_cnt;
+    met3DOD->class_list = class_list;
 }
 
 void mode3DOD::setBoxes(){
-    met3D->now_pcd_data_path = now_pcd_data_path; 
+    met3DOD->now_pcd_data_path = now_pcd_data_path; 
 	gt_label_path = QString::fromStdString(dataset_path+"/gt/label/"+now_label_data_name);
-	vector<BBoxes::BBox3D> vecGT = met3D->getLabelVector(gt_label_path);
+	vector<BBoxes::BBox3D> vecGT = met3DOD->getLabelVector(0, gt_label_path);
     emit sendGTPCD(now_pcd_data_path, vecGT);
 	net1_label_path = QString::fromStdString(dataset_path+"/net1/label/"+now_label_data_name);	
-	vector<BBoxes::BBox3D> vecNet1 = met3D->getLabelVector(net1_label_path);
+	vector<BBoxes::BBox3D> vecNet1 = met3DOD->getLabelVector(1, net1_label_path);
     emit sendNet1PCD(now_pcd_data_path, vecNet1);
 	net2_label_path = QString::fromStdString(dataset_path+"/net2/label/"+now_label_data_name);
-	vector<BBoxes::BBox3D> vecNet2 = met3D->getLabelVector(net2_label_path);
+	vector<BBoxes::BBox3D> vecNet2 = met3DOD->getLabelVector(2, net2_label_path);
     emit sendNet2PCD(now_pcd_data_path, vecNet2);
-    pair<float, float> avg_iou = met3D->returnAvgIOU(vecGT, vecNet1, vecNet2);
+    pair<float, float> avg_iou = met3DOD->returnAvgIOU(vecGT, vecNet1, vecNet2);
     emit sendAvgIOU((avg_iou.first)*100, (avg_iou.second)*100);
 }
 
 void mode3DOD::calcAccuracy(){
-    met3D->threshold = float(this->threshold)/100;
-    met3D->calcMetrics();
+    met3DOD->threshold = float(this->threshold)/100;
+    met3DOD->calcMetrics();
 }
 
 void mode3DOD::setThreshold(int _th){

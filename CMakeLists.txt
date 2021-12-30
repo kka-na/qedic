@@ -79,8 +79,8 @@ include_directories(src src/resource src/forms src/headers src/sources)
 
 set(HEADERS
     src/headers/metric2DSS.h
-    src/headers/metric2D.h
-    src/headers/metric3D.h
+    src/headers/metric2DOD.h
+    src/headers/metric3DOD.h
     src/headers/mode2DSS.h
     src/headers/mode2DOD.h
     src/headers/mode3DOD.h
@@ -90,8 +90,8 @@ set(HEADERS
 
 set(SOURCE_qedic
     src/sources/metric2DSS.cpp
-    src/sources/metric2D.cpp
-    src/sources/metric3D.cpp
+    src/sources/metric2DOD.cpp
+    src/sources/metric3DOD.cpp
     src/sources/mode2DSS.cpp
     src/sources/mode2DOD.cpp
     src/sources/mode3DOD.cpp

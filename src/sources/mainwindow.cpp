@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <unistd.h>	
+#include <algorithm> 
 
 #include <QCoreApplication>
 #include <QListWidgetItem>
@@ -66,6 +67,8 @@ void MainWindow::setEachTasks(){
 	this->clearLayouts();
 	threshold = ui->thSpinBox->value();
 	if(task_idx == 0){
+		ui->net1Name->setText(" Scaled YOLOv4 - P7"); net1_achieve = 55.5;
+		ui->net2Name->setText(" CenterNet 2"); net2_achieve = 45.6;
 		od2d = new mode2DOD(this);
 		od2d->threshold = threshold;
 		this->set2DODLayouts();
@@ -73,19 +76,22 @@ void MainWindow::setEachTasks(){
 		connect(od2d, SIGNAL(sendGTImg(QImage)), this, SLOT(setGTImage(QImage)));
 		connect(od2d, SIGNAL(sendNet1Img(QImage)), this, SLOT(setNet1Image(QImage)));
 		connect(od2d, SIGNAL(sendNet2Img(QImage)), this, SLOT(setNet2Image(QImage)));
+		connect(od2d, SIGNAL(sendStart()), this, SLOT(setLoadingMovie()));
+		connect(od2d, SIGNAL(sendStop()), this, SLOT(stopLoadingMovie()));
 		connect(od2d, SIGNAL(sendAvgIOU(float, float)), this, SLOT(setAvgIOU(float, float)));
-		connect(od2d->met2D, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
-		connect(od2d->met2D, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
-		connect(od2d->met2D, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
+		connect(od2d->met2DOD, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
+		connect(od2d->met2DOD, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
+		connect(od2d->met2DOD, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
 		connect(ui->thSpinBox, SIGNAL(valueChanged(int)), od2d, SLOT(setThreshold(int)));
 		connect(ui->accuracyButton, SIGNAL(clicked()), od2d, SLOT(calcAccuracy()));
 		connect(this, SIGNAL(sendListIdx(int)), od2d, SLOT(setDataIdx(int)));
 		connect(ui->leftButton, SIGNAL(clicked()), od2d, SLOT(goLeft()));
 		connect(ui->rightButton, SIGNAL(clicked()), od2d, SLOT(goRight()));
-		ui->net1Name->setText(" Scaled YOLOv4 - P7");
-		ui->net2Name->setText(" CenterNet 2");
+		
 	}else if(task_idx==1){
 		//setting 2d semantic segmentation
+		ui->net1Name->setText(" EfficientPS"); net1_achieve = 80.3;
+		ui->net2Name->setText(" HRNet-OCR"); net2_achieve = 85.1;
 		ss2d = new mode2DSS(this);
 		ss2d->threshold = threshold;
 		this->set2DSSLayouts();
@@ -104,26 +110,24 @@ void MainWindow::setEachTasks(){
 		connect(this, SIGNAL(sendListIdx(int)), ss2d, SLOT(setDataIdx(int)));
 		connect(ui->leftButton, SIGNAL(clicked()), ss2d, SLOT(goLeft()));
 		connect(ui->rightButton, SIGNAL(clicked()), ss2d, SLOT(goRight()));
-		ui->net1Name->setText(" EfficientPS");
-		ui->net2Name->setText(" HRNet-OCR");
 	}else if(task_idx==2){
 		//setting 3D Object Detection
+		ui->net1Name->setText(" Voxel R-CNN"); net1_achieve = 81.6; //81.6
+		ui->net2Name->setText(" PV R-CNN"); net2_achieve = 81.4; //81.4
 		od3d = new mode3DOD(this);
 		od3d->threshold = threshold;
 		this->set3DODLayouts();
 		connect(od3d, SIGNAL(sendPCDList(QStringList)), this, SLOT(setPCDList(QStringList)));
 		connect(od3d, SIGNAL(sendAvgIOU(float, float)), this, SLOT(setAvgIOU(float, float)));
 		connect(od3d, SIGNAL(sendGTPCD(QString, vector<BBoxes::BBox3D>)),this, SLOT(setGTPCD(QString, vector<BBoxes::BBox3D>)));
-		connect(od3d->met3D, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
-		connect(od3d->met3D, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
-		connect(od3d->met3D, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
+		connect(od3d->met3DOD, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
+		connect(od3d->met3DOD, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
+		connect(od3d->met3DOD, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
 		connect(ui->thSpinBox, SIGNAL(valueChanged(int)), od3d, SLOT(setThreshold(int)));
 		connect(ui->accuracyButton, SIGNAL(clicked()), od3d, SLOT(calcAccuracy()));
 		connect(this, SIGNAL(sendListIdx(int)), od3d, SLOT(setDataIdx(int)));
 		connect(ui->leftButton, SIGNAL(clicked()), od3d, SLOT(goLeft()));
 		connect(ui->rightButton, SIGNAL(clicked()), od3d, SLOT(goRight()));
-		ui->net1Name->setText(" Voxel R-CNN");
-		ui->net2Name->setText(" PV R-CNN");
 	}else{
 		cout<<"There is no task to do "<<endl;
 	}
@@ -311,20 +315,46 @@ void MainWindow::setLOD(){
 	}
 } 
 
+void MainWindow::setAchieve(float AP1, float AP2){
+	float achieve1, achieve2;
+	if(AP1 <= 0.0) achieve1 = 0.0;
+	else achieve1 = float(AP1/net1_achieve+1e-9)*100;
+	if(AP2 <= 0.0) achieve2 = 0.0;
+	else achieve2 = float(AP2/net2_achieve+1e-9)*100;
+	if(achieve1 > 100) achieve1 = 100;
+	if(achieve2 > 100) achieve2 = 100;
+	ui->net1AP_4->setText(QString::number(achieve1).append("%"));
+	ui->net2AP_4->setText(QString::number(achieve2).append("%"));
+}
+
 void MainWindow::setmAPs(float AP1, float AP2){
 	ui->net1AP->setText(QString::number(AP1).append("%"));
 	ui->net2AP->setText(QString::number(AP2).append("%"));
+	this->setAchieve(AP1, AP2);
 }
 
+bool sortbysec(const pair<QString, float> & a, const pair<QString, float> &b){
+	return (a.second > b.second);
+}
 void MainWindow::setNetAPs(int type, vector<pair<QString, float>> mAP){
 	QBarSet *set0;
 	if(task_idx == 1) set0 = new QBarSet("IOU(%)");
 	else set0 = new QBarSet("AP(%)");
-	for(size_t i=0; i<mAP.size(); i++){
-		if(mAP[i].second>0.0){
-			*set0 << (mAP[i].second)*100;
+	sort(mAP.begin(), mAP.end(), sortbysec);
+	if(mAP.size() > 10){
+		for(size_t i=0; i<10; i++){
+			if(mAP[i].second>0.0){
+				*set0 << (mAP[i].second)*100;
+			}
+		}
+	}else{
+		for(size_t i=0; i<mAP.size(); i++){
+			if(mAP[i].second>0.0){
+				*set0 << (mAP[i].second)*100;
+			}
 		}
 	}
+	
 	set0->setColor("#3D4357");
 	QHorizontalBarSeries *series = new QHorizontalBarSeries();
 	series->append(set0);
@@ -341,9 +371,16 @@ void MainWindow::setNetAPs(int type, vector<pair<QString, float>> mAP){
 	}
 	chart->setAnimationOptions(QChart::SeriesAnimations);
 	QStringList categories;
-	for(size_t i=0; i<mAP.size(); i++){
-		if(mAP[i].second>0.0) categories << mAP[i].first;
+	if(mAP.size()>10){
+		for(size_t i=0; i<10; i++){
+			if(mAP[i].second>0.0) categories << mAP[i].first;
+		}
+	}else{
+		for(size_t i=0; i<mAP.size(); i++){
+			if(mAP[i].second>0.0) categories << mAP[i].first;
+		}
 	}
+	
 	QBarCategoryAxis *axisY = new QBarCategoryAxis();
 	axisY->append(categories);
 	chart->addAxis(axisY, Qt::AlignLeft);
@@ -353,8 +390,8 @@ void MainWindow::setNetAPs(int type, vector<pair<QString, float>> mAP){
 	series->attachAxis(axisX);
 	axisX->setMin(0.0);
 	axisX->setMax(100.0);
-	chart->legend()->setVisible(true);
-	chart->legend()->setAlignment(Qt::AlignBottom);
+	chart->legend()->hide(); //setVisible(true);
+	//chart->legend()->setAlignment(Qt::AlignBottom);
 	QChartView *chartView = new QChartView(chart);
 	chartView->setRenderHint(QPainter::Antialiasing);
 	
@@ -420,6 +457,7 @@ void MainWindow::setAvgIOUs(vector<float> net1, vector<float> net2){
 	*/
 	QValueAxis *axisY = new QValueAxis();
 	axisY->setRange(0, max);
+	axisY->setLabelFormat("%d");
 	chart->addAxis(axisY,Qt::AlignLeft);
 	//series->attachAxis(axisY);
 	chart->legend()->setVisible(true);
@@ -449,9 +487,41 @@ int MainWindow::getLOD(float _net1, float _net2){
 	return LOD;
 }
 
+void checkNmake(QString path){
+	if(QDir(path).exists()){
+		QDir(path).removeRecursively();
+	}
+	QDir().mkdir(path);
+}
+
 void MainWindow::setStorage(){
 	QString storage_dir = QFileDialog::getExistingDirectory(this, "Select Directory to Storing Verified Data", QDir::currentPath(),QFileDialog::ShowDirsOnly);
     storage_path = storage_dir.toStdString()+ "/";
+
+	checkNmake(QString::fromStdString(storage_path+"/accept"));
+	checkNmake(QString::fromStdString(storage_path+"/reject"));
+	checkNmake(QString::fromStdString(storage_path+"/accept/gt/"));
+	checkNmake(QString::fromStdString(storage_path+"/accept/net1/"));
+	checkNmake(QString::fromStdString(storage_path+"/accept/net2/"));
+	checkNmake(QString::fromStdString(storage_path+"/reject/gt/"));
+	checkNmake(QString::fromStdString(storage_path+"/reject/net1/"));
+	checkNmake(QString::fromStdString(storage_path+"/reject/net2/"));
+	checkNmake(QString::fromStdString(storage_path+"/accept/gt/data/"));
+	checkNmake(QString::fromStdString(storage_path+"/reject/gt/data/"));
+	
+	if(task_idx == 0 || task_idx == 2){
+		checkNmake(QString::fromStdString(storage_path+"/accept/gt/label/"));
+		checkNmake(QString::fromStdString(storage_path+"/accept/net1/label/"));
+		checkNmake(QString::fromStdString(storage_path+"/accept/net2/label/"));
+		checkNmake(QString::fromStdString(storage_path+"/reject/gt/label/"));
+		checkNmake(QString::fromStdString(storage_path+"/reject/net1/label"));
+		checkNmake(QString::fromStdString(storage_path+"/reject/net2/label/"));
+	}else if(task_idx == 1){
+		checkNmake(QString::fromStdString(storage_path+"/accept/net1/data/"));
+		checkNmake(QString::fromStdString(storage_path+"/accept/net2/data/"));
+		checkNmake(QString::fromStdString(storage_path+"/reject/net1/data/"));
+		checkNmake(QString::fromStdString(storage_path+"/reject/net2/data/"));
+	}
 }
 
 void MainWindow::displayDetail(){
@@ -478,9 +548,13 @@ void MainWindow::displayDetail(){
 	}
 }
 void MainWindow::dataAccept(){
-	cout<<"data Accept"<<endl;
+	if(task_idx == 0) od2d->saveAccept(storage_path);
+	else if(task_idx == 1) ss2d->saveAccept(storage_path);
+	else if(task_idx == 2) od3d->saveAccept(storage_path);
 }
 void MainWindow::dataReject(){
-	cout<<"data Reject"<<endl;
+	if(task_idx == 0) od2d->saveReject(storage_path);
+	else if(task_idx == 1) ss2d->saveReject(storage_path);
+	else if(task_idx == 2) od3d->saveReject(storage_path);
 }
 
