@@ -16,6 +16,11 @@ public:
     int class_cnt;
     QStringList class_list;
     float threshold;
+    struct IoUInfo{
+        int cls;
+        float conf;
+        float iou;
+    };
 
 public:
     Metric3DOD(QObject *parent = 0);
@@ -33,6 +38,8 @@ private:
     vector<pair<float, float>> pr2;
     vector<pair<float, float>>* cls_pr1;
     vector<pair<float, float>>* cls_pr2;
+    vector<Metric3DOD::IoUInfo>* cls_iou_info1;
+    vector<Metric3DOD::IoUInfo>* cls_iou_info2;
     int* cls_gt;
     vector<pair<int, int>> cls_tpfp1;
     vector<pair<int, int>> cls_tpfp2;
@@ -41,12 +48,13 @@ private:
 
 private:
     int getIdxbyCls(string);
-    vector<pair<int, float>> calcIOUwithNetandGT(vector<BBoxes::BBox3D>,vector<BBoxes::BBox3D>);
+    vector<Metric3DOD::IoUInfo> calcIOUwithNetandGT(vector<BBoxes::BBox3D>,vector<BBoxes::BBox3D>);
     float calcIOU(BBoxes::BBox3D, BBoxes::BBox3D);
     pair<float, float> calcXY(int, BBoxes::Corner3D, BBoxes::Corner3D, BBoxes::Corner3D, BBoxes::Corner3D);
-    void accTPFP(int, vector<pair<int, float>>);
+    void orgByClass(int, vector<Metric3DOD::IoUInfo>);
+    void accTPFP(int, vector<Metric3DOD::IoUInfo>);
     vector<pair<QString, float>> calcAPbyClass(vector<pair<float, float>>*);
-    float getAverageIOU(vector<pair<int, float>>);
+    float getAverageIOU(vector<Metric3DOD::IoUInfo>);
     bool checkIndex(vector<int>, int);
     void initializeVecArray(vector<pair<float, float>>*);
 
