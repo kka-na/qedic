@@ -32,8 +32,8 @@ void Metric2DOD::setPaths(string _dataset_path){
 }
 
 pair<float, float> Metric2DOD::returnAvgIOU(vector<BBoxes::BBox2D> _gtVec, vector<BBoxes::BBox2D> _net1Vec, vector<BBoxes::BBox2D> _net2Vec){
-    vector<pair<int, float>> net1_ious = this->calcIOUwithNetandGT(_gtVec, _net1Vec);  
-    vector<pair<int, float>> net2_ious = this->calcIOUwithNetandGT(_gtVec, _net2Vec);  
+    vector<Metric2DOD::IoUInfo> net1_ious = this->calcIOUwithNetandGT(_gtVec, _net1Vec);  
+    vector<Metric2DOD::IoUInfo> net2_ious = this->calcIOUwithNetandGT(_gtVec, _net2Vec);  
     float net1_avg_iou = this->getAverageIOU(net1_ious);
     float net2_avg_iou = this->getAverageIOU(net2_ious);
     return make_pair(net1_avg_iou, net2_avg_iou);
@@ -84,45 +84,6 @@ vector<BBoxes::BBox2D> Metric2DOD::getLabelVector(QString label_path){
     return vec;
 }
 
-bool compare_conf(BBoxes::BBox2D a, BBoxes::BBox2D b){ return a.conf > b.conf;}
-
-bool compare_iou(pair<int, float> a, pair<int, float> b){ return a.second > b.second;}
-
-vector<pair<int, float>> Metric2DOD::calcIOUwithNetandGT(vector<BBoxes::BBox2D> gtVec, vector<BBoxes::BBox2D> netVec){
-    vector<pair<int, float>> ious;
-
-    sort(netVec.begin(), netVec.end(), compare_conf);
-    vector<int> checked_gts = {0};
-    bool detected = false;
-    for(size_t i=0; i<netVec.size(); i++){
-        if(netVec[i].cls == -1) continue;
-        detected = true;
-        vector<pair<int, float>> each_ious;
-        for(size_t j=0; j<gtVec.size(); j++){
-            each_ious.push_back(make_pair((int)j, this->calcIOU(gtVec[j], netVec[i])));
-        }
-        sort(each_ious.begin(), each_ious.end(),compare_iou);
-        float iou=0.0;
-        if(i == 0){
-            iou = each_ious[0].second;
-            checked_gts.push_back(each_ious[0].first);
-        }else{
-            for(size_t k=0; k<checked_gts.size(); k++){
-                if(each_ious[0].first == checked_gts[k]){
-                    iou = 0.0;
-                }else{
-                    iou = each_ious[0].second;
-                    checked_gts.push_back(each_ious[0].first);
-                    break;
-                }    
-            }
-        }
-        ious.push_back(make_pair(netVec[i].cls,iou));
-    }
-    if(!detected) ious.push_back(make_pair(-1, 0.0));
-    return ious;
-}
-
 float Metric2DOD::calcIOU(BBoxes::BBox2D gt, BBoxes::BBox2D net){
     int x1 = max(gt.lx, net.lx);
     int y1 = max(gt.ly, net.ly);
@@ -141,79 +102,166 @@ float Metric2DOD::calcIOU(BBoxes::BBox2D gt, BBoxes::BBox2D net){
     int area_b = (net.rx-net.lx) * (net.ry-net.ly);
     int area_combined = area_a + area_b - area_overlap;
     
-    iou = float(area_overlap / ( area_combined + 1e-5));    
+    iou = float(area_overlap / (area_combined+1e-9) );    
 
     return iou;
 }
 
-void Metric2DOD::accTPFP(int type, vector<pair<int, float>> ious){
-    for(size_t i = 0; i<ious.size(); i++){
-        float precision, recall = 0.0;
-        if(ious[i].first == -1) continue;
-        if(ious[i].second <= threshold){
-            if(type == 1) cls_tpfp1[ious[i].first].second++; //FP
-            else if(type==2) cls_tpfp2[ious[i].first].second++; //FP
-        }else{
-            if(type == 1) cls_tpfp1[ious[i].first].first++; //TP
-            else if(type==2) cls_tpfp2[ious[i].first].first++; //TP
+bool compare_conf(BBoxes::BBox2D a, BBoxes::BBox2D b){ return a.conf > b.conf;}
+
+bool compare_iou(pair<int, float> a, pair<int, float> b){ return a.second > b.second;}
+
+vector<Metric2DOD::IoUInfo> Metric2DOD::calcIOUwithNetandGT(vector<BBoxes::BBox2D> gtVec, vector<BBoxes::BBox2D> netVec){
+    //vector<pair<int, float>> ious;
+    vector<Metric2DOD::IoUInfo> iouInfos;
+    sort(netVec.begin(), netVec.end(), compare_conf);
+    vector<int> checked_gts = {0};
+    bool detected = false;
+    for(size_t i=0; i<netVec.size(); i++){
+        if(netVec[i].cls == -1) continue;
+        detected = true;
+        vector<pair<int, float>> each_ious;
+        for(size_t j=0; j<gtVec.size(); j++){
+            each_ious.push_back(make_pair((int)j, this->calcIOU(gtVec[j], netVec[i])));
         }
-        if(type==1){
-            if(cls_tpfp1[ious[i].first].first == 0 ){
-                precision = 0.0;
-                recall = 0.0;
-            }else{
-                precision = cls_tpfp1[ious[i].first].first / float(cls_tpfp1[ious[i].first].first+cls_tpfp1[ious[i].first].second);
-                recall = cls_tpfp1[ious[i].first].first / float(cls_gt[ious[i].first]);
+        sort(each_ious.begin(), each_ious.end(), compare_iou);
+        float iou=0.0;
+        if(i == 0){
+            iou = each_ious[0].second;
+            checked_gts.push_back(each_ious[0].first);
+        }else{
+            for(size_t k=0; k<checked_gts.size(); k++){
+                if(each_ious[0].first != checked_gts[k]){
+                    iou = each_ious[0].second;
+                    checked_gts.push_back(each_ious[0].first);
+                    break;
+                }
             }
-            pr1.push_back(make_pair(precision, recall));
-            cls_pr1[ious[i].first].push_back(make_pair(precision, recall));
-        }else if(type==2){
-            if(cls_tpfp2[ious[i].first].first == 0){
-                precision = 0.0;
-                recall = 0.0;
-            }else{
-                precision = cls_tpfp2[ious[i].first].first / float(cls_tpfp2[ious[i].first].first+cls_tpfp2[ious[i].first].second);
-                recall = cls_tpfp2[ious[i].first].first / float(cls_gt[ious[i].first]);
-            }             
-            pr2.push_back(make_pair(precision, recall));
-            cls_pr2[ious[i].first].push_back(make_pair(precision, recall));
+        }
+        //ious.push_back(make_pair(netVec[i].cls,iou));
+        iouInfos.push_back({netVec[i].cls, netVec[i].conf, iou});
+    }
+    //if(!detected) ious.push_back(make_pair(-1, 0.0));
+    if(!detected) iouInfos.push_back({-1, 0.0, 0.0});
+    //return ious;
+    return iouInfos;
+}
+
+void Metric2DOD::orgByClass(int type, vector<Metric2DOD::IoUInfo> iou_infos){
+    for(size_t i = 0; i<iou_infos.size(); i++){
+        if(iou_infos[i].cls == -1) return;
+        else{
+            if(type == 1) cls_iou_info1[iou_infos[i].cls].push_back(iou_infos[i]);
+            else if(type == 2) cls_iou_info2[iou_infos[i].cls].push_back(iou_infos[i]);
         }
     }
 }
 
+bool compare_conf2(Metric2DOD::IoUInfo a, Metric2DOD::IoUInfo b){ return a.conf > b.conf;}
+
+void Metric2DOD::accTPFP(int type, vector<Metric2DOD::IoUInfo> iou_infos){
+    sort(iou_infos.begin(), iou_infos.end(), compare_conf2);
+    for(size_t i = 0; i<iou_infos.size(); i++){
+        float precision, recall = 0.0;
+        if(iou_infos[i].cls == -1) continue;
+        if(iou_infos[i].iou <= threshold){
+            if(type == 1) cls_tpfp1[iou_infos[i].cls].second++; //FP
+            else if(type==2) cls_tpfp2[iou_infos[i].cls].second++; //FP
+        }else{
+            if(type == 1) cls_tpfp1[iou_infos[i].cls].first++; //TP
+            else if(type==2) cls_tpfp2[iou_infos[i].cls].first++; //TP
+        }
+        if(type==1){
+            if(cls_tpfp1[iou_infos[i].cls].first == 0 ){
+                precision = 0.0;
+                recall = 0.0;
+            }else{
+                precision = cls_tpfp1[iou_infos[i].cls].first / float((cls_tpfp1[iou_infos[i].cls].first+cls_tpfp1[iou_infos[i].cls].second)+1e-16);
+                recall = cls_tpfp1[iou_infos[i].cls].first / float((cls_gt[iou_infos[i].cls])+1e-16);
+            }
+            pr1.push_back(make_pair(precision, recall));
+            cls_pr1[iou_infos[i].cls].push_back(make_pair(precision, recall));
+            
+        }else if(type==2){
+            if(cls_tpfp2[iou_infos[i].cls].first == 0){
+                precision = 0.0;
+                recall = 0.0;
+            }else{
+                precision = cls_tpfp2[iou_infos[i].cls].first / float((cls_tpfp2[iou_infos[i].cls].first+cls_tpfp2[iou_infos[i].cls].second)+1e-16);
+                recall = cls_tpfp2[iou_infos[i].cls].first / float((cls_gt[iou_infos[i].cls])+1e-16);
+            }             
+            pr2.push_back(make_pair(precision, recall));
+            cls_pr2[iou_infos[i].cls].push_back(make_pair(precision, recall));
+        }
+    }
+}
+
+
+//COCO Method: mAP Calculating by 101-point iterpolation
 vector<pair<QString, float>> Metric2DOD::calcAPbyClass(vector<pair<float,float>> * cls_prs){
     vector<pair<QString, float>> cls_ap(class_cnt, make_pair("-", 0.0));
     for(int i=0; i<class_cnt; i++){
         float total_pr = 0.0;
-        float recall_index = 9.5;
+        float recall_index = 100.0;
         float max_pr = 0.0;
+        
         while(true){
-            if(recall_index < 5.0) break;
+            if(recall_index < 0.0) break;
             for(size_t j=0; j<cls_prs[i].size(); j++){
-                if((recall_index/10.0)-0.05<cls_prs[i][j].second && cls_prs[i][j].second <= recall_index/9.5){
-                   //cout<<(recall_index/10.0)-0.05<<"<"<<cls_prs[i][j].second<<"&&"<<cls_prs[i][j].second<<"<="<<recall_index/9.5<<endl;
-                    if(max_pr <= cls_prs[i][j].first)
-                        max_pr = cls_prs[i][j].first;
+                if((recall_index/100.0)-0.1<cls_prs[i][j].second && cls_prs[i][j].second <= recall_index/100.0){
+                    if(max_pr <= cls_prs[i][j].first) max_pr = cls_prs[i][j].first;
                 }
             }
             total_pr += max_pr;
-            recall_index = recall_index - 0.5;
+            recall_index = recall_index - 1;
         }
+        
         float AP = 0.0;
         if(total_pr == 0) AP = 0.0;
-        else AP = total_pr / (10+1e-9);
+        else AP = float(total_pr / (101.0+1e-16));
         cls_ap.push_back(make_pair(class_list[i],AP));
     }
     return cls_ap;
 }
 
+
+/*
+//VOC Pascal Method : Every point interpolation
+vector<pair<QString, float>> Metric2DOD::calcAPbyClass(vector<pair<float,float>> * cls_prs){
+    vector<pair<QString, float>> cls_ap(class_cnt, make_pair("-", 0.0));
+    for(int i=0; i<class_cnt; i++){
+        vector<pair<float, float>> max_pr_rc;
+        float max_pr = 0.0;
+        int cnt=0;
+        for(int j=int(cls_prs[i].size())-1; j>-1; j--){
+            cnt ++;
+            if(max_pr <= cls_prs[i][j].first){
+                max_pr = cls_prs[i][j].first;
+                max_pr_rc.push_back(make_pair(max_pr, cls_prs[i][j].second));
+            }
+        }
+
+        float total_ap = 0.0;
+        for(int j=0; j<int(max_pr_rc.size()); j++){
+            if(j==int(max_pr_rc.size())-1)
+                total_ap += (max_pr_rc[j].second-0.0)*max_pr_rc[j].first;
+            else
+                total_ap += (max_pr_rc[j].second-max_pr_rc[j+1].second)*max_pr_rc[j].first;
+        }
+        cls_ap.push_back(make_pair(class_list[i],total_ap));
+    }
+    return cls_ap;
+}
+*/
+
 void Metric2DOD::calcMetrics(){
     float all_gt_size = 0.0;
     TP1 = 0; FP1 = 0; TP2 = 0; FP2 = 0;
-    
     cls_gt = new int[class_cnt]{0};
     cls_pr1 = new vector<pair<float, float>>[class_cnt]; initializeVecArray(cls_pr1);
     cls_pr2 = new vector<pair<float, float>>[class_cnt]; initializeVecArray(cls_pr2);
+    cls_iou_info1 = new vector<Metric2DOD::IoUInfo>[class_cnt]; 
+    cls_iou_info2 = new vector<Metric2DOD::IoUInfo>[class_cnt]; 
     cls_tpfp1 = vector<pair<int, int>>(class_cnt, make_pair(0,0));
     cls_tpfp2 = vector<pair<int, int>>(class_cnt, make_pair(0,0)); 
     vector<float> net1_avg_ious;
@@ -230,12 +278,17 @@ void Metric2DOD::calcMetrics(){
         vector<BBoxes::BBox2D> vecGT = getLabelVector(QString::fromStdString(gt_label+(gt_label_list.at(i).toLocal8Bit().constData())));
         vector<BBoxes::BBox2D> vecNet1 = getLabelVector(QString::fromStdString(net1_label+(gt_label_list.at(i).toLocal8Bit().constData())));
         vector<BBoxes::BBox2D> vecNet2 = getLabelVector(QString::fromStdString(net2_label+(gt_label_list.at(i).toLocal8Bit().constData())));
-        vector<pair<int, float>> net1_ious = this->calcIOUwithNetandGT(vecGT, vecNet1);  
-        vector<pair<int, float>> net2_ious = this->calcIOUwithNetandGT(vecGT, vecNet2);
+        vector<Metric2DOD::IoUInfo> net1_ious = this->calcIOUwithNetandGT(vecGT, vecNet1);  
+        vector<Metric2DOD::IoUInfo> net2_ious = this->calcIOUwithNetandGT(vecGT, vecNet2);
         net1_avg_ious.push_back((getAverageIOU(net1_ious))*100);
         net2_avg_ious.push_back((getAverageIOU(net2_ious))*100); 
-        this->accTPFP(1, net1_ious);
-        this->accTPFP(2, net2_ious);
+        this->orgByClass(1, net1_ious);
+        this->orgByClass(2, net2_ious);
+    }
+
+    for(int i=0; i<class_cnt; i++){
+        this->accTPFP(1, cls_iou_info1[i]);
+        this->accTPFP(2, cls_iou_info2[i]);
     }
 
     vector<pair<QString, float>>cls_AP1 = this->calcAPbyClass(cls_pr1);
@@ -292,13 +345,13 @@ int* Metric2DOD::calcBoxes(float cx, float cy, float w, float h, int disp_w, int
     return box;
 }  
 
-float Metric2DOD::getAverageIOU(vector<pair<int, float>> vec){
+float Metric2DOD::getAverageIOU(vector<Metric2DOD::IoUInfo> vec){
     float sum = 0.0;
     float avgIOU = 0.0;
 
-    if(vec[0].first != -1){
+    if(vec[0].cls != -1){
         for(size_t i=0; i<vec.size(); i++){
-            sum = sum + vec[i].second;
+            sum = sum + vec[i].iou;
         }
         if(sum<=0.0) avgIOU = 0.0;
         else avgIOU = sum/float(vec.size()) + 1e-9;
@@ -326,10 +379,11 @@ void Metric2DOD::initializeVecArray(vector<pair<float, float>>* vec_array){
     }
 }
 
-
 Metric2DOD::~Metric2DOD(){
     delete [] cls_gt;
     delete [] cls_pr1;
     delete [] cls_pr2;
+    delete [] cls_iou_info1;
+    delete [] cls_iou_info2;
 }
 

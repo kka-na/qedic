@@ -17,6 +17,11 @@ public:
     int class_cnt;
     QStringList class_list;
     float threshold;
+    struct IoUInfo{
+        int cls;
+        float conf;
+        float iou; 
+    };
 
 public:
     Metric2DOD(QObject *parent = 0);
@@ -34,17 +39,19 @@ private:
     vector<pair<float, float>> pr2;
     vector<pair<float, float>>* cls_pr1;
     vector<pair<float, float>>* cls_pr2;
+    vector<Metric2DOD::IoUInfo>* cls_iou_info1;
+    vector<Metric2DOD::IoUInfo>* cls_iou_info2;
     int* cls_gt;
     vector<pair<int, int>> cls_tpfp1;
     vector<pair<int, int>> cls_tpfp2;
 
-
 private:
-    vector<pair<int, float>> calcIOUwithNetandGT(vector<BBoxes::BBox2D>,vector<BBoxes::BBox2D>);
+    vector<Metric2DOD::IoUInfo> calcIOUwithNetandGT(vector<BBoxes::BBox2D>,vector<BBoxes::BBox2D>);
     float calcIOU(BBoxes::BBox2D, BBoxes::BBox2D);
-    void accTPFP(int, vector<pair<int, float>>);
+    void orgByClass(int, vector<Metric2DOD::IoUInfo>);
+    void accTPFP(int, vector<Metric2DOD::IoUInfo>);
     vector<pair<QString, float>> calcAPbyClass(vector<pair<float, float>>*);
-    float getAverageIOU(vector<pair<int, float>>);
+    float getAverageIOU(vector<Metric2DOD::IoUInfo>);
     bool checkIndex(vector<int>, int);
     void initializeVecArray(vector<pair<float, float>>*);
 

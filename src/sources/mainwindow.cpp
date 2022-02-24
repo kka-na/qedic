@@ -67,8 +67,10 @@ void MainWindow::setEachTasks(){
 	this->clearLayouts();
 	threshold = ui->thSpinBox->value();
 	if(task_idx == 0){
-		ui->net1Name->setText(" Scaled YOLOv4 - P7"); net1_achieve = 55.5;
-		ui->net2Name->setText(" CenterNet 2"); net2_achieve = 45.6;
+		//setting 2d object detection 
+		/* Below are to wmodels to compare, and achieve is the thesis presentation performance of each model */
+		ui->net1Name->setText(" Without AL"); net1_achieve = 69.9;
+		ui->net2Name->setText(" With AL"); net2_achieve = 69.9;
 		od2d = new mode2DOD(this);
 		od2d->threshold = threshold;
 		this->set2DODLayouts();
@@ -112,8 +114,8 @@ void MainWindow::setEachTasks(){
 		connect(ui->rightButton, SIGNAL(clicked()), ss2d, SLOT(goRight()));
 	}else if(task_idx==2){
 		//setting 3D Object Detection
-		ui->net1Name->setText(" Voxel R-CNN"); net1_achieve = 81.6; //81.6
-		ui->net2Name->setText(" PV R-CNN"); net2_achieve = 81.4; //81.4
+		ui->net1Name->setText(" Voxel R-CNN"); net1_achieve = 81.6; 
+		ui->net2Name->setText(" PV R-CNN"); net2_achieve = 81.4;
 		od3d = new mode3DOD(this);
 		od3d->threshold = threshold;
 		this->set3DODLayouts();
