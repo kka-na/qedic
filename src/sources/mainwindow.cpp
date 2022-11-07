@@ -41,7 +41,6 @@ MainWindow::~MainWindow()
 void MainWindow::setFunction()
 {
 	connect(ui->taskButton, SIGNAL(clicked()), this, SLOT(setTask()));
-	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(setServer()));
 	connect(ui->dataButton, SIGNAL(clicked()), this, SLOT(setData()));
 	connect(ui->storageButton, SIGNAL(clicked()), this, SLOT(setStorage()));
 	connect(ui->detailButton, SIGNAL(clicked()), this, SLOT(displayDetail()));
@@ -153,21 +152,6 @@ void MainWindow::setEachTasks()
 	{
 		cout << "There is no task to do " << endl;
 	}
-}
-void MainWindow::setServer()
-{
-	QInputDialog qDialog;
-	QStringList items;
-	items << QString("192.168.0.1");
-	items << QString("192.168.0.2");
-	items << QString("192.168.0.3");
-
-	qDialog.setOptions(QInputDialog::UseListViewForComboBoxItems);
-	qDialog.setStyleSheet("QInputDialog {background-color: #F1F5F8;}");
-	qDialog.setComboBoxItems(items);
-	qDialog.setWindowTitle("Choose Server");
-	if (qDialog.exec())
-		server = qDialog.textValue().toStdString();
 }
 
 void MainWindow::setData()
