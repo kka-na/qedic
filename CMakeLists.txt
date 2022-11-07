@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(qedic)
+project(qedic LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -19,7 +19,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt5 REQUIRED Widgets Gui ) 
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 find_package(Qt5 REQUIRED COMPONENTS OpenGL Quick Core Gui Sql Charts)
-#find_package(Qt5QuickCompiler)
 
 set(QWT_INCLUDE_DIR /usr/local/qwt-6.2.0/src)
 set ( QWT_INCLUDE_DIRS ${QWT_INCLUDE_DIR} )
@@ -63,18 +62,14 @@ link_libraries(${JSONCPP_LIBRARIES})
 find_package(Threads)
 find_package(Eigen3 REQUIRED)
 
-set(VTK_DIR "~/VTK-7.0.1/build/lib/cmake")
-find_package(VTK REQUIRED PATHS ${VTK_DIR}) 
+find_package(VTK REQUIRED)
+include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
 
 find_package(OpenGL)
 find_package(GLEW)
 
-find_package (OpenCV REQUIRED PATHS ${OpenCV_DIR})
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-set(OPEN3D_DIR "~/Open3D/build/lib/cmake")
+set(OPEN3D_DIR "~/Packages/Open3D/build/lib/cmake")
 find_package(Open3D REQUIRED PATHS ${OPEN3D_DIR})
-
 include_directories(src src/resource src/forms src/headers src/sources)
 
 set(HEADERS
@@ -103,19 +98,17 @@ set(SOURCE_qedic
 qt5_wrap_cpp(HEADER_qedic ${HEADERS})
 qt5_wrap_ui(UI_qedic src/forms/mainwindow.ui) 
 qt5_add_resources(RESOURCES src/resource/resources.qrc)
-#qtquick_compiler_add_resources(RESOURCES src/resource/resources.qrc)
 
 add_executable(qedic 
     ${SOURCE_qedic} ${HEADER_qedic} ${UI_qedic} ${RESOURCES}
     ${QWT_INCLUDE_DIRS} ${VTK_INCLUDE_DIRS}
 )
 
-
-target_link_libraries(qedic ${OpenCV_LIBRARIES} 
+target_link_libraries(qedic 
     Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Charts Qt5::OpenGL
-    ${QWT_LIBRARIES} ${VTK_LIBRARIES} Open3D::Open3D
+    ${QWT_LIBRARIES} ${VTK_LIBRARIES}  
+    Open3D::Open3D 
     OpenGL::GL GLEW::GLEW
 )
 
-
-include(${VTK_USE_FILE})
+include(${VTK_USE_FILE}) 

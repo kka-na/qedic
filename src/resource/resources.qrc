@@ -2,7 +2,6 @@
   <qresource prefix="/">
     <file>icon/icon.png</file>
     <file>icon/detail.png</file>
-    <file>icon/detail.png</file>
     <file>icon/accept.png</file>
     <file>icon/reject.png</file>
     <file>icon/data.png</file>
