@@ -61,6 +61,8 @@ private:
 
     float net1_achieve, net2_achieve;
 
+    float obj_sim, cls_var, obj_size_var, avg_bbox_acc, avg_acc_achiv = 0.0;
+
 private:
     void setFunction();
     void setEachTasks();
@@ -71,6 +73,7 @@ private:
     void set2DSSLayouts();
     void set3DODLayouts();
     void clearLayouts();
+    void calcQAI();
 
 private slots:
     void setData();
@@ -82,6 +85,9 @@ private slots:
     void setNet2Image(QImage);
     void setGTPCD(QString, vector<BBoxes::BBox3D>);
     void setAvgIOU(float, float);
+    void setBBoxAcc(float, float, float);
+    void setVariance(float, float);
+    void setObjSim(float);
     void setLoadingMovie();
     void stopLoadingMovie();
     void setmAPs(float, float);

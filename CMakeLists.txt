@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-
+cmake_policy(SET CMP0104 OLD)
 project(qedic LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 14)

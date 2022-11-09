@@ -3,7 +3,6 @@
 #pragma once
 
 #include "metric2DOD.h"
- 
 
 #include <QThread>
 #include <QObject>
@@ -21,7 +20,6 @@ public:
     void setData(string, QString, QString);
     void saveAccept(string);
     void saveReject(string);
-    int n1_w, n1_h, gt_w, gt_h;
     QStringList class_list;
     int class_cnt;
     int threshold;
@@ -38,11 +36,10 @@ private:
     QString now_img_data_path;
     QString net1_label_path, net2_label_path, gt_label_path;
 
-    
     int n1_obj_count, n2_obj_count, gt_obj_count = 0;
 
 private:
-    int* calcBoxes(float, float, float, float, int, int);
+    int *calcBoxes(float, float, float, float, int, int);
     void setBoxes();
     vector<BBoxes::BBox2D> getLabelVector(QString);
     void drawBoxes(int, vector<BBoxes::BBox2D>);
@@ -64,7 +61,6 @@ private slots:
     void setDataIdx(int);
     void goLeft();
     void goRight();
-
 };
 
 #endif

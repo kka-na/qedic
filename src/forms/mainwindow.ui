@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1590</width>
-    <height>899</height>
+    <height>982</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,12 +27,12 @@
       <x>10</x>
       <y>10</y>
       <width>211</width>
-      <height>141</height>
+      <height>71</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="2">
-      <widget class="QPushButton" name="rightButton">
+     <item row="0" column="1">
+      <widget class="QPushButton" name="dataButton">
        <property name="styleSheet">
         <string notr="true">background-color: rgba(226, 230, 235,0);</string>
        </property>
@@ -40,8 +40,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="right" resource="../resource/resources.qrc">
-         <normaloff>:/icon/right.png</normaloff>:/icon/right.png</iconset>
+        <iconset theme="data" resource="../resource/resources.qrc">
+         <normaloff>:/icon/data.png</normaloff>:/icon/data.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -50,30 +50,7 @@
         </size>
        </property>
        <property name="shortcut">
-        <string>D</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="leftButton">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
-       </property>
-       <property name="text">
         <string/>
-       </property>
-       <property name="icon">
-        <iconset theme="left" resource="../resource/resources.qrc">
-         <normaloff>:/icon/left.png</normaloff>:/icon/left.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="shortcut">
-        <string>A</string>
        </property>
       </widget>
      </item>
@@ -88,29 +65,6 @@
        <property name="icon">
         <iconset theme="task" resource="../resource/resources.qrc">
          <normaloff>:/icon/task.png</normaloff>:/icon/task.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="shortcut">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="dataButton">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(226, 230, 235,0);</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset theme="data" resource="../resource/resources.qrc">
-         <normaloff>:/icon/data.png</normaloff>:/icon/data.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -169,8 +123,8 @@ border-color: rgb(61, 67, 87);</string>
    <widget class="QPushButton" name="accuracyButton">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>570</y>
+      <x>10</x>
+      <y>260</y>
       <width>211</width>
       <height>41</height>
      </rect>
@@ -186,15 +140,15 @@ color: rgb(226, 230, 235);</string>
    <widget class="QLabel" name="levelLabel">
     <property name="geometry">
      <rect>
-      <x>855</x>
-      <y>400</y>
-      <width>100</width>
-      <height>100</height>
+      <x>865</x>
+      <y>515</y>
+      <width>80</width>
+      <height>75</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Ubuntu Condensed</family>
+      <family>Ubuntu</family>
       <pointsize>12</pointsize>
       <weight>75</weight>
       <italic>false</italic>
@@ -202,12 +156,12 @@ color: rgb(226, 230, 235);</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">border:3px;
-border-radius:40px;
+     <string notr="true">border:5px;
+border-radius:25px;
 </string>
     </property>
     <property name="text">
-     <string>Level</string>
+     <string>LoD</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -216,8 +170,8 @@ border-radius:40px;
    <widget class="QLabel" name="net1Name">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>20</y>
+      <x>235</x>
+      <y>15</y>
       <width>140</width>
       <height>21</height>
      </rect>
@@ -236,8 +190,8 @@ color: rgb(226, 230, 235);</string>
    <widget class="QLabel" name="net2Name">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>20</y>
+      <x>915</x>
+      <y>15</y>
       <width>140</width>
       <height>21</height>
      </rect>
@@ -256,8 +210,8 @@ color: rgb(226, 230, 235);</string>
    <widget class="QLabel" name="net1AverageLabel">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>360</y>
+      <x>715</x>
+      <y>365</y>
       <width>181</width>
       <height>21</height>
      </rect>
@@ -276,8 +230,8 @@ color: rgb(94, 226, 177);</string>
    <widget class="QLabel" name="net2AverageLabel">
     <property name="geometry">
      <rect>
-      <x>1390</x>
-      <y>360</y>
+      <x>1395</x>
+      <y>365</y>
       <width>181</width>
       <height>21</height>
      </rect>
@@ -297,9 +251,9 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>400</y>
+      <y>515</y>
       <width>210</width>
-      <height>100</height>
+      <height>75</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -314,8 +268,8 @@ color: rgb(94, 226, 177);</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>90</width>
-      <height>90</height>
+      <width>60</width>
+      <height>60</height>
      </size>
     </property>
     <property name="shortcut">
@@ -329,9 +283,9 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>990</x>
-      <y>400</y>
+      <y>515</y>
       <width>210</width>
-      <height>100</height>
+      <height>75</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -349,8 +303,8 @@ color: rgb(94, 226, 177);</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>90</width>
-      <height>90</height>
+      <width>60</width>
+      <height>60</height>
      </size>
     </property>
     <property name="shortcut">
@@ -364,17 +318,22 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
-      <width>211</width>
-      <height>301</height>
+      <y>310</y>
+      <width>210</width>
+      <height>391</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 1px;
+border-style: solid;
+border-color: rgb(61, 67, 87);</string>
     </property>
    </widget>
    <widget class="QPushButton" name="detailButton">
     <property name="geometry">
      <rect>
       <x>1170</x>
-      <y>510</y>
+      <y>600</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -400,9 +359,9 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>460</y>
+      <y>470</y>
       <width>371</width>
-      <height>381</height>
+      <height>461</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="net1Layout2"/>
@@ -411,9 +370,9 @@ color: rgb(94, 226, 177);</string>
     <property name="geometry">
      <rect>
       <x>1210</x>
-      <y>460</y>
+      <y>470</y>
       <width>371</width>
-      <height>381</height>
+      <height>461</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="net2Layout2"/>
@@ -421,9 +380,9 @@ color: rgb(94, 226, 177);</string>
    <widget class="QLabel" name="net1AP">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>440</y>
-      <width>250</width>
+      <x>345</x>
+      <y>460</y>
+      <width>255</width>
       <height>30</height>
      </rect>
     </property>
@@ -447,9 +406,9 @@ color: rgb(255, 84, 113);</string>
    <widget class="QLabel" name="net2AP">
     <property name="geometry">
      <rect>
-      <x>1330</x>
-      <y>440</y>
-      <width>250</width>
+      <x>1325</x>
+      <y>460</y>
+      <width>255</width>
       <height>30</height>
      </rect>
     </property>
@@ -477,7 +436,7 @@ color: rgb(255, 84, 113);</string>
     <property name="geometry">
      <rect>
       <x>1210</x>
-      <y>440</y>
+      <y>460</y>
       <width>110</width>
       <height>30</height>
      </rect>
@@ -500,7 +459,7 @@ color: rgb(226, 230, 235);</string>
     <property name="geometry">
      <rect>
       <x>231</x>
-      <y>440</y>
+      <y>460</y>
       <width>110</width>
       <height>30</height>
      </rect>
@@ -580,7 +539,7 @@ color: rgb(226, 230, 235);</string>
     <property name="geometry">
      <rect>
       <x>609</x>
-      <y>509</y>
+      <y>599</y>
       <width>591</width>
       <height>331</height>
      </rect>
@@ -627,7 +586,7 @@ border-color: rgb(61, 67, 87);</string>
     <property name="geometry">
      <rect>
       <x>607</x>
-      <y>507</y>
+      <y>597</y>
       <width>596</width>
       <height>336</height>
      </rect>
@@ -666,7 +625,7 @@ border-color: rgb(61, 67, 87);</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>620</y>
+      <y>710</y>
       <width>211</width>
       <height>221</height>
      </rect>
@@ -677,9 +636,9 @@ border-color: rgb(61, 67, 87);</string>
     <property name="geometry">
      <rect>
       <x>227</x>
-      <y>437</y>
+      <y>455</y>
       <width>376</width>
-      <height>406</height>
+      <height>478</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -695,9 +654,9 @@ border-color: rgb(61, 67, 87);</string>
     <property name="geometry">
      <rect>
       <x>1207</x>
-      <y>437</y>
+      <y>455</y>
       <width>376</width>
-      <height>406</height>
+      <height>478</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -713,7 +672,7 @@ border-color: rgb(61, 67, 87);</string>
     <property name="geometry">
      <rect>
       <x>7</x>
-      <y>617</y>
+      <y>707</y>
       <width>216</width>
       <height>226</height>
      </rect>
@@ -727,18 +686,19 @@ border-color: rgb(61, 67, 87);</string>
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="net2AP_3">
+   <widget class="QLabel" name="net1AP_3">
     <property name="geometry">
      <rect>
-      <x>1210</x>
-      <y>400</y>
-      <width>201</width>
-      <height>30</height>
+      <x>231</x>
+      <y>430</y>
+      <width>190</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(61, 67, 87);
-color: rgb(226, 230, 235);</string>
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
     </property>
     <property name="text">
      <string>Accuaracy Achievement</string>
@@ -750,13 +710,13 @@ color: rgb(226, 230, 235);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="net2AP_4">
+   <widget class="QLabel" name="net1_achieve">
     <property name="geometry">
      <rect>
-      <x>1419</x>
-      <y>400</y>
-      <width>161</width>
-      <height>30</height>
+      <x>430</x>
+      <y>430</y>
+      <width>170</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -766,11 +726,12 @@ color: rgb(226, 230, 235);</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(61, 67, 87);
-color: rgb(94, 226, 177);</string>
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
     </property>
     <property name="text">
-     <string>Net2's Achievement</string>
+     <string>Net1</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -779,21 +740,326 @@ color: rgb(94, 226, 177);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="net1AP_3">
+   <widget class="QPushButton" name="leftButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>100</width>
+      <height>56</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="left" resource="../resource/resources.qrc">
+      <normaloff>:/icon/left.png</normaloff>:/icon/left.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string>A</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rightButton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>90</y>
+      <width>100</width>
+      <height>56</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(226, 230, 235,0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="right" resource="../resource/resources.qrc">
+      <normaloff>:/icon/right.png</normaloff>:/icon/right.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string>D</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_5">
     <property name="geometry">
      <rect>
       <x>231</x>
       <y>400</y>
-      <width>201</width>
-      <height>30</height>
+      <width>190</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(61, 67, 87);
-color: rgb(226, 230, 235);</string>
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
     </property>
     <property name="text">
-     <string>Accuaracy Achievement</string>
+     <string>Boundingbox Accuracy</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1_bbox_acc">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>400</y>
+      <width>170</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Net1</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_7">
+    <property name="geometry">
+     <rect>
+      <x>815</x>
+      <y>400</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Class Std Variance</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gt_obj_size_var">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>430</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>GT</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_9">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>400</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Object Size Std Variance</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gt_cls_var">
+    <property name="geometry">
+     <rect>
+      <x>815</x>
+      <y>430</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>GT</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_11">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>400</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Object Similarity</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gt_obj_sim">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>430</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>GT</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2_bbox_acc">
+    <property name="geometry">
+     <rect>
+      <x>1410</x>
+      <y>400</y>
+      <width>170</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Net2</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_6">
+    <property name="geometry">
+     <rect>
+      <x>1211</x>
+      <y>400</y>
+      <width>190</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Boundingbox Accuracy</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -805,10 +1071,112 @@ color: rgb(226, 230, 235);</string>
    <widget class="QLabel" name="net1AP_4">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>400</y>
-      <width>161</width>
-      <height>30</height>
+      <x>1211</x>
+      <y>430</y>
+      <width>190</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Accuaracy Achievement</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net2_achieve">
+    <property name="geometry">
+     <rect>
+      <x>1410</x>
+      <y>430</y>
+      <width>170</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Net2</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_10">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>460</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Avg Acc Achievement</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_12">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>460</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>Avg BBox Accuracy</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gt_qai">
+    <property name="geometry">
+     <rect>
+      <x>805</x>
+      <y>479</y>
+      <width>200</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -819,10 +1187,93 @@ color: rgb(226, 230, 235);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(61, 67, 87);
-color: rgb(94, 226, 177);</string>
+color: rgb(137,112,245);</string>
     </property>
     <property name="text">
-     <string>Net1's Achievement</string>
+     <string>GT</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="net1AP_8">
+    <property name="geometry">
+     <rect>
+      <x>805</x>
+      <y>460</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(61, 67, 87);
+color: rgb(226, 230, 235);</string>
+    </property>
+    <property name="text">
+     <string>Quality Assurance Indicator</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gt_avg_achieve">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>490</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>GT</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gt_avg_bbox_acc">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>490</y>
+      <width>180</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-width: 1px;
+border-bottom-style: solid;
+border-color: rgb(61, 67, 87);</string>
+    </property>
+    <property name="text">
+     <string>GT</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -862,10 +1313,28 @@ color: rgb(94, 226, 177);</string>
    <zorder>net1AP</zorder>
    <zorder>net2AP</zorder>
    <zorder>net2AP_2</zorder>
-   <zorder>net2AP_3</zorder>
-   <zorder>net2AP_4</zorder>
    <zorder>net1AP_3</zorder>
+   <zorder>net1_achieve</zorder>
+   <zorder>leftButton</zorder>
+   <zorder>rightButton</zorder>
+   <zorder>net1AP_5</zorder>
+   <zorder>net1_bbox_acc</zorder>
+   <zorder>net1AP_7</zorder>
+   <zorder>gt_obj_size_var</zorder>
+   <zorder>net1AP_9</zorder>
+   <zorder>gt_cls_var</zorder>
+   <zorder>net1AP_11</zorder>
+   <zorder>gt_obj_sim</zorder>
+   <zorder>net2_bbox_acc</zorder>
+   <zorder>net1AP_6</zorder>
    <zorder>net1AP_4</zorder>
+   <zorder>net2_achieve</zorder>
+   <zorder>net1AP_10</zorder>
+   <zorder>net1AP_12</zorder>
+   <zorder>gt_qai</zorder>
+   <zorder>net1AP_8</zorder>
+   <zorder>gt_avg_achieve</zorder>
+   <zorder>gt_avg_bbox_acc</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

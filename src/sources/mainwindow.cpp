@@ -82,7 +82,7 @@ void MainWindow::setEachTasks()
 		ui->net2Name->setText(" CenterNet2");
 		net2_achieve = 45.6;
 		od2d = new mode2DOD(this);
-		od2d->threshold = threshold;
+		// od2d->threshold = threshold;
 		this->set2DODLayouts();
 		connect(od2d, SIGNAL(sendImgList(QStringList)), this, SLOT(setImageList(QStringList)));
 		connect(od2d, SIGNAL(sendGTImg(QImage)), this, SLOT(setGTImage(QImage)));
@@ -94,6 +94,9 @@ void MainWindow::setEachTasks()
 		connect(od2d->met2DOD, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
 		connect(od2d->met2DOD, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
 		connect(od2d->met2DOD, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
+		connect(od2d->met2DOD, SIGNAL(sendBBoxAcc(float, float, float)), this, SLOT(setBBoxAcc(float, float, float)));
+		connect(od2d->met2DOD, SIGNAL(sendVariance(float, float)), this, SLOT(setVariance(float, float)));
+		connect(od2d->met2DOD, SIGNAL(sendObjSim(float)), this, SLOT(setObjSim(float)));
 		connect(ui->thSpinBox, SIGNAL(valueChanged(int)), od2d, SLOT(setThreshold(int)));
 		connect(ui->accuracyButton, SIGNAL(clicked()), od2d, SLOT(calcAccuracy()));
 		connect(this, SIGNAL(sendListIdx(int)), od2d, SLOT(setDataIdx(int)));
@@ -164,14 +167,6 @@ void MainWindow::setData()
 
 	if (task_idx == 0)
 	{
-		int n1_w = net1Label->width();
-		int n1_h = net1Label->height();
-		int gt_w = gtLabel->width();
-		int gt_h = gtLabel->height();
-		od2d->n1_w = n1_w;
-		od2d->n1_h = n1_h;
-		od2d->gt_w = gt_w;
-		od2d->gt_h = gt_h;
 		od2d->setData(dataset_path, data_path, label_path);
 	}
 	else if (task_idx == 1)
@@ -193,6 +188,9 @@ void MainWindow::set2DODLayouts()
 	gtLabel = new QLabel(this);
 	net1Label = new QLabel(this);
 	net2Label = new QLabel(this);
+	gtLabel->setAlignment(Qt::AlignCenter);
+	net1Label->setAlignment(Qt::AlignCenter);
+	net2Label->setAlignment(Qt::AlignCenter);
 	ui->gtLayout->addWidget(gtLabel);
 	ui->net1Layout1->addWidget(net1Label);
 	ui->net2Layout1->addWidget(net2Label);
@@ -231,7 +229,7 @@ void MainWindow::setLoadingMovie()
 	loadingLabel = new QLabel(this);
 	loadingLabel->resize(100, 40);
 	loadingLabel->setStyleSheet("background-color: rgb(61, 67, 87);color: rgb(226, 230, 235);");
-	loadingLabel->move(855, 450);
+	loadingLabel->move(855, 550);
 	loadingLabel->setAlignment(Qt::AlignCenter);
 	/*
 	movie = new QMovie(":/gif/loader.gif");
@@ -333,6 +331,28 @@ void MainWindow::setAvgIOU(float avg_net1_iou, float avg_net2_iou)
 	this->setLOD();
 }
 
+void MainWindow::setBBoxAcc(float net1, float net2, float avg)
+{
+	ui->net1_bbox_acc->setText(QString::number(net1));
+	ui->net2_bbox_acc->setText(QString::number(net2));
+	ui->gt_avg_bbox_acc->setText(QString::number(avg));
+	this->avg_bbox_acc = avg;
+}
+
+void MainWindow::setVariance(float cls, float obj_size)
+{
+	this->cls_var = cls * 100.0;
+	this->obj_size_var = obj_size * 100.0;
+	ui->gt_cls_var->setText(QString::number(this->cls_var));
+	ui->gt_obj_size_var->setText(QString::number(this->obj_size_var));
+}
+
+void MainWindow::setObjSim(float sim)
+{
+	this->obj_sim = sim * 100.0;
+	ui->gt_obj_sim->setText(QString::number(this->obj_sim));
+}
+
 void MainWindow::setLOD()
 {
 	QString str1("Average IOU : ");
@@ -344,17 +364,17 @@ void MainWindow::setLOD()
 	QPixmap lodPNG;
 	if (LOD == 1)
 	{
-		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #58DE7E; border:3px; border-radius:50px}");
+		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #58DE7E; border:3px; border-radius:37px}");
 		ui->levelLabel->setText("Easy");
 	}
 	else if (LOD == 2)
 	{
-		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FFC658; border:3px; border-radius:50px}");
+		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FFC658; border:3px; border-radius:37px}");
 		ui->levelLabel->setText("Moderate");
 	}
 	else if (LOD == 3)
 	{
-		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FF7058; border:3px; border-radius:50px}");
+		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FF7058; border:3px; border-radius:37px}");
 		ui->levelLabel->setText("Hard");
 	}
 }
@@ -374,8 +394,20 @@ void MainWindow::setAchieve(float AP1, float AP2)
 		achieve1 = 100;
 	if (achieve2 > 100)
 		achieve2 = 100;
-	ui->net1AP_4->setText(QString::number(achieve1).append("%"));
-	ui->net2AP_4->setText(QString::number(achieve2).append("%"));
+
+	float avg_achieve = (achieve1 + achieve2) / 2.0;
+
+	ui->net1_achieve->setText(QString::number(achieve1).append("%"));
+	ui->net2_achieve->setText(QString::number(achieve2).append("%"));
+	ui->gt_avg_achieve->setText(QString::number(avg_achieve).append("%"));
+	this->avg_acc_achiv = avg_achieve;
+	this->calcQAI();
+}
+
+void MainWindow::calcQAI()
+{
+	float QAI = 0.2 * (avg_acc_achiv + avg_bbox_acc + (100 - obj_sim) + (100.0 - cls_var) + (100.0 - obj_size_var));
+	ui->gt_qai->setText(QString::number(QAI));
 }
 
 void MainWindow::setmAPs(float AP1, float AP2)
@@ -541,6 +573,7 @@ void MainWindow::setAvgIOUs(vector<float> net1, vector<float> net2)
 	QValueAxis *axisY = new QValueAxis();
 	axisY->setRange(0, max);
 	axisY->setLabelFormat("%d");
+	axisY->setLabelsColor("#3D4357");
 	chart->addAxis(axisY, Qt::AlignLeft);
 	// series->attachAxis(axisY);
 	chart->legend()->setVisible(true);
