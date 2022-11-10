@@ -13,7 +13,7 @@ Quality Assurance Indicator(QAI) is calculated with Accuracy Achievement, Boundi
 
 ### Training Result
 
-| Dataset | Task | Validation Size | mAP(YOLOv4-P7) | mAP(CenterNet2) |
+| Dataset | Task | Validation Size | mAP1 | mAP2 |
 | :------ | :-: |:-: | :-:| :-:|
 | **COCO** | 2DOD |5000 | 53.6156% | 63.7698% |
 | **TS** | 2DOD |2891 | 51.0785% | 50.2422% |
