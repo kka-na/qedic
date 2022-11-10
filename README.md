@@ -8,8 +8,8 @@ Quality Evaluation and Difficulty Classification of your Deep-Learning Model's P
 
 ## Newly Updated !
 ### v2.0
-Update the QAI calculation module.
-Quality Assurance Indicator(QAI) is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Similarity, Class Density and Object Size Density
+Update the Quality Assurance Indicator (QAI) calculation module.
+QAI is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Similarity, Class Density and Object Size Density
 
 ### Training Result
 
