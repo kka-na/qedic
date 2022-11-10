@@ -6,7 +6,15 @@
 
 Quality Evaluation and Difficulty Classification of your Deep-Learning Model's Prediction Result and Ground Truth Data.
 
-## Environment
+## Version 2.0
+
+Update the QAI calculation module.
+Quality Assurance Indicator(QAI) is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Similarity, Class Density and Object Size Density
+
+| Dataset | Validation Size | mAP(YOLOv4-P7) | mAP(CenterNet2) |
+| :------ | :-------------: | -------------- | --------------- |
+
+## Environment Setting
 
 - please download all libraries at home
 - or should modify CMakeLists.txt file

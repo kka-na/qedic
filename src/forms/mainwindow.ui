@@ -140,10 +140,10 @@ color: rgb(226, 230, 235);</string>
    <widget class="QLabel" name="levelLabel">
     <property name="geometry">
      <rect>
-      <x>865</x>
-      <y>515</y>
-      <width>80</width>
-      <height>75</height>
+      <x>870</x>
+      <y>520</y>
+      <width>70</width>
+      <height>70</height>
      </rect>
     </property>
     <property name="font">
@@ -157,7 +157,7 @@ color: rgb(226, 230, 235);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">border:5px;
-border-radius:25px;
+border-radius:35px;
 </string>
     </property>
     <property name="text">
@@ -867,7 +867,7 @@ border-bottom-style: solid;
 border-color: rgb(61, 67, 87);</string>
     </property>
     <property name="text">
-     <string>Class Std Variance</string>
+     <string>Class Density</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -921,7 +921,7 @@ border-bottom-style: solid;
 border-color: rgb(61, 67, 87);</string>
     </property>
     <property name="text">
-     <string>Object Size Std Variance</string>
+     <string>Object Size Density</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>

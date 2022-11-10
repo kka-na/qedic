@@ -377,11 +377,8 @@ void Metric2DOD::calcMetrics()
         delete[] cls_pr1;
         delete[] cls_pr2;
     }
-    cout << "Object Similarity" << endl;
     float obj_sim = this->calcObjSimilarity(cls_iou_info1, cls_iou_info2);
-    cout << "Class_Variance" << endl;
     float class_var = this->calcNormVariance(cls_gt, class_cnt, all_gt_size);
-    cout << "Obj Size Variance" << endl;
     float obj_size_var = this->calcNormVariance(obj_size_list, 5.0, all_gt_size);
     float net1_bbox_acc = this->calcBBoxAcc(net1_avg_ious);
     float net2_bbox_acc = this->calcBBoxAcc(net2_avg_ious);
@@ -389,39 +386,41 @@ void Metric2DOD::calcMetrics()
     float net1_mAP = float(sum_mAP1 / 10 + 1e-16);
     float net2_mAP = float(sum_mAP2 / 10 + 1e-16);
 
-    emit sendmAPs(net1_mAP, net2_mAP);
+    emit sendObjSim(obj_sim);
+    emit sendVariance(class_var, obj_size_var);
     emit sendAvgIOUs(net1_avg_ious, net2_avg_ious);
     emit sendBBoxAcc(net1_bbox_acc, net2_bbox_acc, avg_bbox_acc);
-    emit sendVariance(class_var, obj_size_var);
-    emit sendObjSim(obj_sim);
+    emit sendmAPs(net1_mAP, net2_mAP);
 }
 
 float Metric2DOD::calcNormVariance(int *_list, int cnt_factor, int norm_factor)
 {
+    // Calc Average
+    float cnt_sum = 0.0;
+    for (int i = 0; i < cnt_factor; i++)
+    {
+        cnt_sum += _list[i];
+    }
+    float avg = cnt_sum != 0 ? cnt_sum / float(cnt_factor) : 0.0;
+    avg = avg != 0 ? avg / float(norm_factor) : 0.0;
+    // Normalizae
     float *norm_list = new float[cnt_factor]{0.0};
     for (int i = 0; i < cnt_factor; i++)
     {
         norm_list[i] = _list[i] != 0 ? float(_list[i]) / float(norm_factor) : 0.0;
     }
-    float cnt_sum = 0.0;
-    for (int i = 0; i < cnt_factor; i++)
-    {
-        cnt_sum += norm_list[i];
-    }
-    float avg = cnt_sum != 0 ? cnt_sum / float(cnt_factor) : 0.0;
-    cout << "avg:" << avg << endl;
+
+    // cout << "avg:" << avg << endl;
     float dev_sum = 0.0;
     for (int i = 0; i < cnt_factor; i++)
     {
         float dev = norm_list[i] - avg;
-        cout << norm_list[i] << " " << dev << endl;
+        // cout << norm_list[i] << " " << dev << endl;
         dev_sum += pow(dev, 2);
     }
     float var = dev_sum != 0.0 ? float(dev_sum) / float(cnt_factor) : 0.0;
     float std_var = var != 0.0 ? sqrt(var) : 0.0;
-    cout << "var:" << var << " "
-         << "std_var:" << std_var << endl
-         << endl;
+    // cout << "var:" << var << " "<< "std_var:" << std_var << endl<< endl;
     return std_var;
 }
 

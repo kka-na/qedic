@@ -364,17 +364,17 @@ void MainWindow::setLOD()
 	QPixmap lodPNG;
 	if (LOD == 1)
 	{
-		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #58DE7E; border:3px; border-radius:37px}");
+		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #58DE7E; border:3px; border-radius:35px}");
 		ui->levelLabel->setText("Easy");
 	}
 	else if (LOD == 2)
 	{
-		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FFC658; border:3px; border-radius:37px}");
+		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FFC658; border:3px; border-radius:35px}");
 		ui->levelLabel->setText("Moderate");
 	}
 	else if (LOD == 3)
 	{
-		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FF7058; border:3px; border-radius:37px}");
+		ui->levelLabel->setStyleSheet("QLabel{color: #3D4357; background-color: #FF7058; border:3px; border-radius:35px}");
 		ui->levelLabel->setText("Hard");
 	}
 }
