@@ -6,13 +6,24 @@
 
 Quality Evaluation and Difficulty Classification of your Deep-Learning Model's Prediction Result and Ground Truth Data.
 
-## Version 2.0
-
+## Newly Updated !
+### v2.0
 Update the QAI calculation module.
 Quality Assurance Indicator(QAI) is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Similarity, Class Density and Object Size Density
 
+### Training Result 
+
 | Dataset | Validation Size | mAP(YOLOv4-P7) | mAP(CenterNet2) |
-| :------ | :-------------: | -------------- | --------------- |
+| :------ | :-: | :-:| :-:|
+| **COCO** | 5000 | 53.6156% | 63.7698% |
+| **TS** | 2891 | 51.0785% | 50.2422% |
+
+### QAI Result
+| Dataset | Accuracy Achievement | Bounding-Box Accuracy | Object Similarity | Class Density | Object Size Density | QAI |
+| :-- | :-: | :-: | :-: | :-: | :-: | :-: |
+| **COCO** | 98.3024 | 73.0722 | 18.1468 | 3.41686 | 34.2982 | **83.1025** |
+| **TS** | 96.0166 | 66.3139 | 14.8032 | 14.3204 | 39.8156 | **78.6783** |
+
 
 ## Environment Setting
 
