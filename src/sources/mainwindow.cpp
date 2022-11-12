@@ -145,6 +145,9 @@ void MainWindow::setEachTasks()
 		connect(od3d->met3DOD, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
 		connect(od3d->met3DOD, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
 		connect(od3d->met3DOD, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
+		connect(od3d->met3DOD, SIGNAL(sendBBoxAcc(float, float, float)), this, SLOT(setBBoxAcc(float, float, float)));
+		connect(od3d->met3DOD, SIGNAL(sendVariance(float, float)), this, SLOT(setVariance(float, float)));
+		connect(od3d->met3DOD, SIGNAL(sendObjSim(float)), this, SLOT(setObjSim(float)));
 		connect(ui->thSpinBox, SIGNAL(valueChanged(int)), od3d, SLOT(setThreshold(int)));
 		connect(ui->accuracyButton, SIGNAL(clicked()), od3d, SLOT(calcAccuracy()));
 		connect(this, SIGNAL(sendListIdx(int)), od3d, SLOT(setDataIdx(int)));
