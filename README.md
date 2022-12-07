@@ -20,10 +20,7 @@ QAI is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Simila
 | Dataset     | Task | Validation Size |   mAP1   |   mAP2   |
 | :---------- | :--: | :-------------: | :------: | :------: |
 | **COCO**    | 2DOD |      5000       | 53.6156% | 63.7698% |
-<<<<<<< HEAD
 | **KITTI**   | 2DOD |      1497       | 46.5362% | 51.5076% |
-=======
->>>>>>> 0d24472a9e0e00666798f1da18445b6668ca796f
 | **TS 2021** | 2DOD |      2891       | 51.0785% | 50.2422% |
 | **KITTI**   | 3DOD |      1497       | 48.5059% | 31.3924% |
 | **TS 2021** | 3DOD |       500       | 41.6157% | 48.5326% |
@@ -33,10 +30,7 @@ QAI is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Simila
 | Dataset     | Task | Accuracy Achievement | Bounding-Box Accuracy | Object Similarity | Class Density | Object Size Density |     QAI     |
 | :---------- | :--: | :------------------: | :-------------------: | :---------------: | :-----------: | :-----------------: | :---------: |
 | **COCO**    | 2DOD |       98.3024        |        73.0722        |      18.1468      |    3.41686    |       34.2982       | **83.1025** |
-<<<<<<< HEAD
 | **KITTI**   | 2DOD |         100          |        66.9405        |      23.0489      |   19.06011    |       39.6846       | **77.0294** |
-=======
->>>>>>> 0d24472a9e0e00666798f1da18445b6668ca796f
 | **TS 2021** | 2DOD |       96.0166        |        66.3139        |      14.8032      |    14.3204    |       39.8156       | **78.6783** |
 | **KITTI**   | 3DOD |       49.0046        |        23.3024        |      5.9789       |    30.5679    |       29.3885       | **61.2743** |
 | **TS 2021** | 3DOD |        55.311        |        24.8896        |      15.5961      |    43.7833    |       36.608        | **56.8426** |
@@ -46,10 +40,7 @@ QAI is calculated with Accuracy Achievement, Boundin-Box Accuracy, Object Simila
 | Dataset     | Task | Validation Size | IoU Threshold | Easy | Moderate | Hard |
 | :---------- | :--: | :-------------: | :-----------: | :--: | :------: | :--: |
 | **COCO**    | 2DOD |      5000       |      60       | 3167 |   1230   | 603  |
-<<<<<<< HEAD
 | **KITTI**   | 2DOD |      1497       |      60       | 814  |   402    | 281  |
-=======
->>>>>>> 0d24472a9e0e00666798f1da18445b6668ca796f
 | **TS 2021** | 2DOD |      2891       |      60       | 1283 |   1424   | 184  |
 | **KITTI**   | 3DOD |      1497       |      30       | 265  |   443    | 789  |
 | **TS 2021** | 3DOD |       500       |      30       | 115  |   113    | 272  |
