@@ -122,37 +122,50 @@ bool compare_iou2(pair<int, float> a, pair<int, float> b) { return a.second > b.
 vector<Metric3DOD::IoUInfo> Metric3DOD::calcIOUwithNetandGT(vector<BBoxes::BBox3D> gtVec, vector<BBoxes::BBox3D> netVec)
 {
     vector<Metric3DOD::IoUInfo> ious;
-    sort(netVec.begin(), netVec.end(), compare_conf);
-    vector<int> checked_gts = {0};
-
-    for (size_t i = 0; i < netVec.size(); i++)
-    {
-        vector<pair<int, float>> each_ious;
-        for (size_t j = 0; j < gtVec.size(); j++)
+    if (netVec.size() ==0) {
+        ious.push_back({-1, 0.0, 0.0});
+        return ious;
+    }
+    else{
+        sort(netVec.begin(), netVec.end(), compare_conf);
+        vector<int> checked_gts = {0};
+        for (size_t i = 0; i < netVec.size(); i++)
         {
-            each_ious.push_back(make_pair((int)j, this->calcIOU(gtVec[j], netVec[i])));
-        }
-        sort(each_ious.begin(), each_ious.end(), compare_iou2);
-        float iou = 0.0;
-        if (i == 0)
-        {
-            iou = each_ious[0].second;
-            checked_gts.push_back(each_ious[0].first);
-        }
-        else
-        {
-            for (size_t k = 0; k < checked_gts.size(); k++)
-            {
-                if (each_ious[0].first != checked_gts[k])
+            vector<pair<int, float>> each_ious;
+            if (gtVec.size() == 0 ){
+                ious.push_back({-1, 0.0, 0.0});
+                return ious;
+            }else{
+                for (size_t j = 0; j < gtVec.size(); j++)
+                {
+                    each_ious.push_back(make_pair((int)j, this->calcIOU(gtVec[j], netVec[i])));
+                }
+                sort(each_ious.begin(), each_ious.end(), compare_iou2);
+                float iou = 0.0;
+                if (i == 0)
                 {
                     iou = each_ious[0].second;
                     checked_gts.push_back(each_ious[0].first);
-                    break;
                 }
+                else
+                {
+                    for (size_t k = 0; k < checked_gts.size(); k++)
+                    {
+                        if (each_ious[0].first != checked_gts[k])
+                        {
+                            iou = each_ious[0].second;
+                            checked_gts.push_back(each_ious[0].first);
+                            break;
+                        }
+                    }
+                }
+                ious.push_back({netVec[i].cls, netVec[i].conf, iou});
             }
+            
         }
-        ious.push_back({netVec[i].cls, netVec[i].conf, iou});
+        
     }
+    cout << endl;
     return ious;
 }
 
@@ -160,6 +173,8 @@ void Metric3DOD::orgByClass(int type, vector<Metric3DOD::IoUInfo> iou_infos)
 {
     for (size_t i = 0; i < iou_infos.size(); i++)
     {
+        if (iou_infos[i].cls == -1)
+            return;
         if (type == 1)
             cls_iou_info1[iou_infos[i].cls].push_back(iou_infos[i]);
         else if (type == 2)
@@ -332,19 +347,23 @@ void Metric3DOD::calcMetrics()
 
     for (int i = 0; i < gt_label_list.size(); i++)
     {
-        vector<BBoxes::BBox3D> vecGT = getLabelVector(0, QString::fromStdString(gt_label + (gt_label_list.at(i).toLocal8Bit().constData())));
+        cout << (gt_label_list.at(i).toLocal8Bit().constData()) << endl;
+        vector<BBoxes::BBox3D>
+            vecGT = getLabelVector(0, QString::fromStdString(gt_label + (gt_label_list.at(i).toLocal8Bit().constData())));
         vector<BBoxes::BBox3D> vecNet1 = getLabelVector(1, QString::fromStdString(net1_label + (net1_label_list.at(i).toLocal8Bit().constData())));
         vector<BBoxes::BBox3D> vecNet2 = getLabelVector(2, QString::fromStdString(net2_label + (net2_label_list.at(i).toLocal8Bit().constData())));
-
+        
         vector<Metric3DOD::IoUInfo> net1_ious = this->calcIOUwithNetandGT(vecGT, vecNet1);
         vector<Metric3DOD::IoUInfo> net2_ious = this->calcIOUwithNetandGT(vecGT, vecNet2);
         net1_avg_ious.push_back((getAverageIOU(net1_ious)) * 100);
         net2_avg_ious.push_back((getAverageIOU(net2_ious)) * 100);
         this->orgByClass(1, net1_ious);
+        cout << "orgbyclass1" << endl;
         this->orgByClass(2, net2_ious);
+        cout << "orgbyclass2" << endl;
     }
 
-    float threshold = 0.7;
+    float threshold = 0.5;
 
     vector<pair<float, float>> *cls_pr1 = this->accTPFP(cls_iou_info1, threshold);
     vector<pair<float, float>> *cls_pr2 = this->accTPFP(cls_iou_info2, threshold);
@@ -375,8 +394,10 @@ void Metric3DOD::calcMetrics()
     }
     float mAP2 = net2_cls_ap_sum != 0 ? (net2_cls_ap_sum / net2_cls_num) * 100 : 0.0;
 
+    int valid_class_cnt = net1_cls_num <= net2_cls_num ? net1_cls_num : net2_cls_num;
+
     float obj_sim = this->calcObjSimilarity(cls_iou_info1, cls_iou_info2);
-    float class_var = this->calcNormVariance(cls_gt, class_cnt, all_gt_size);
+    float class_var = this->calcNormVariance(cls_gt, valid_class_cnt, all_gt_size);
     float obj_size_var = this->calcNormVariance(obj_size_list, 5.0, all_gt_size);
     float net1_bbox_acc = this->calcBBoxAcc(net1_avg_ious);
     float net2_bbox_acc = this->calcBBoxAcc(net2_avg_ious);
@@ -399,14 +420,16 @@ float Metric3DOD::getAverageIOU(vector<Metric3DOD::IoUInfo> vec)
 {
     float sum = 0.0;
     float avgIOU = 0.0;
-    for (size_t i = 0; i < vec.size(); i++)
-    {
-        sum = sum + vec[i].iou;
+    if(vec[0].cls != -1){
+        for (size_t i = 0; i < vec.size(); i++)
+        {
+            sum = sum + vec[i].iou;
+        }
+        if (sum <= 0.0)
+            avgIOU = 0.0;
+        else
+            avgIOU = sum / (float(vec.size()) + 1e-9);
     }
-    if (sum <= 0.0)
-        avgIOU = 0.0;
-    else
-        avgIOU = sum / (float(vec.size()) + 1e-9);
     return avgIOU;
 }
 

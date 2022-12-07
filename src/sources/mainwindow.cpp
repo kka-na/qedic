@@ -135,12 +135,16 @@ void MainWindow::setEachTasks()
 	else if (task_idx == 2)
 	{
 		// setting 3D Object Detection
-		ui->net1Name->setText(" Voxel R-CNN");
-		net1_achieve = 81.6;
-		ui->net2Name->setText(" PV R-CNN");
-		net2_achieve = 81.4;
+		// ui->net1Name->setText(" Voxel R-CNN");
+		// net1_achieve = 81.6;
+		// ui->net2Name->setText(" PV R-CNN");
+		// net2_achieve = 81.4;
+		ui->net1Name->setText(" PointPillar");
+		net1_achieve = 44.63;
+		ui->net2Name->setText(" SECOND");
+		net2_achieve = 50.59;
 		od3d = new mode3DOD(this);
-		od3d->threshold = threshold;
+		//od3d->threshold = threshold;
 		this->set3DODLayouts();
 		connect(od3d, SIGNAL(sendPCDList(QStringList)), this, SLOT(setPCDList(QStringList)));
 		connect(od3d, SIGNAL(sendAvgIOU(float, float)), this, SLOT(setAvgIOU(float, float)));

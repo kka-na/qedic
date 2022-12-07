@@ -383,7 +383,6 @@ void Metric2DOD::calcMetrics()
         delete[] cls_pr2;
     }
     int valid_class_cnt = net1_cls_num <= net2_cls_num ? net1_cls_num : net2_cls_num;
-    cout << valid_class_cnt << " " << net1_cls_num << " " << net2_cls_num << endl;
     float obj_sim = this->calcObjSimilarity(cls_iou_info1, cls_iou_info2);
     float class_var = this->calcNormVariance(cls_gt, valid_class_cnt, all_gt_size);
     float obj_size_var = this->calcNormVariance(obj_size_list, 5.0, all_gt_size);
@@ -440,18 +439,14 @@ float Metric2DOD::calcClassConfVar(vector<Metric2DOD::IoUInfo> info)
 float Metric2DOD::calcObjSimilarity(vector<Metric2DOD::IoUInfo> *info1, vector<Metric2DOD::IoUInfo> *info2)
 {
     float sum_conf_var = 0.0;
-    float valid_class_num = 0;
     for (int i = 0; i < class_cnt; i++)
     {
+        // TODO : Indicate object is not same ;;;;
         float cls_conf_var1 = this->calcClassConfVar(info1[i]);
         float cls_conf_var2 = this->calcClassConfVar(info2[i]);
-        
-        if (cls_conf_var1 !=0 && cls_conf_var2 !=0){
-            valid_class_num += 1.0;
-            sum_conf_var += (cls_conf_var1 + cls_conf_var2) / 2.0;
-        }
+        sum_conf_var += (cls_conf_var1 + cls_conf_var2) / 2.0;
     }
-    float avg_sim = sum_conf_var / float(valid_class_num);
+    float avg_sim = sum_conf_var != 0 ? sum_conf_var / float(class_cnt) : 0.0;
     return avg_sim;
 }
 
@@ -462,7 +457,7 @@ float Metric2DOD::calcBBoxAcc(vector<float> net)
     {
         sum += net[i];
     }
-    float avg = sum / float(net.size());
+    float avg = sum != 0 ? sum / float(net.size()) : 0.0;
     return avg;
 }
 
