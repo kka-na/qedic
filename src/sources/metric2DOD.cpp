@@ -335,14 +335,19 @@ void Metric2DOD::calcMetrics()
     float threshold = 0.5;
     float sum_mAP1 = 0.0;
     float sum_mAP2 = 0.0;
+    int net1_cls_num = 0;
+    int net2_cls_num = 0;
     for (int n = 0; n < 10; n++)
     {
+        net1_cls_num = 0;
+        net2_cls_num = 0;
+        
         vector<pair<float, float>> *cls_pr1 = this->accTPFP(cls_iou_info1, threshold);
         vector<pair<float, float>> *cls_pr2 = this->accTPFP(cls_iou_info2, threshold);
         vector<pair<QString, float>> cls_AP1 = this->calcAPbyVOC(cls_pr1);
         vector<pair<QString, float>> cls_AP2 = this->calcAPbyVOC(cls_pr2);
 
-        int net1_cls_num = 0;
+        
         float net1_cls_ap_sum = 0.0;
         for (size_t i = 0; i < cls_AP1.size(); i++)
         {
@@ -354,7 +359,7 @@ void Metric2DOD::calcMetrics()
         }
         float mAP1 = net1_cls_ap_sum != 0 ? (net1_cls_ap_sum / net1_cls_num) * 100 : 0.0;
 
-        int net2_cls_num = 0;
+        
         float net2_cls_ap_sum = 0.0;
         for (size_t i = 0; i < cls_AP2.size(); i++)
         {
@@ -377,13 +382,15 @@ void Metric2DOD::calcMetrics()
         delete[] cls_pr1;
         delete[] cls_pr2;
     }
+    int valid_class_cnt = net1_cls_num <= net2_cls_num ? net1_cls_num : net2_cls_num;
+    cout << valid_class_cnt << " " << net1_cls_num << " " << net2_cls_num << endl;
     float obj_sim = this->calcObjSimilarity(cls_iou_info1, cls_iou_info2);
-    float class_var = this->calcNormVariance(cls_gt, class_cnt, all_gt_size);
+    float class_var = this->calcNormVariance(cls_gt, valid_class_cnt, all_gt_size);
     float obj_size_var = this->calcNormVariance(obj_size_list, 5.0, all_gt_size);
     float net1_bbox_acc = this->calcBBoxAcc(net1_avg_ious);
     float net2_bbox_acc = this->calcBBoxAcc(net2_avg_ious);
     float avg_bbox_acc = (net1_bbox_acc + net2_bbox_acc) / 2.0;
-    float net1_mAP = float(sum_mAP1 / 10 + 1e-16);
+    float net1_mAP = float(sum_mAP1 / 10 + 1e-16);      
     float net2_mAP = float(sum_mAP2 / 10 + 1e-16);
 
     emit sendObjSim(obj_sim);
@@ -433,13 +440,18 @@ float Metric2DOD::calcClassConfVar(vector<Metric2DOD::IoUInfo> info)
 float Metric2DOD::calcObjSimilarity(vector<Metric2DOD::IoUInfo> *info1, vector<Metric2DOD::IoUInfo> *info2)
 {
     float sum_conf_var = 0.0;
+    float valid_class_num = 0;
     for (int i = 0; i < class_cnt; i++)
     {
         float cls_conf_var1 = this->calcClassConfVar(info1[i]);
         float cls_conf_var2 = this->calcClassConfVar(info2[i]);
-        sum_conf_var += (cls_conf_var1 + cls_conf_var2) / 2.0;
+        
+        if (cls_conf_var1 !=0 && cls_conf_var2 !=0){
+            valid_class_num += 1.0;
+            sum_conf_var += (cls_conf_var1 + cls_conf_var2) / 2.0;
+        }
     }
-    float avg_sim = sum_conf_var / float(class_cnt);
+    float avg_sim = sum_conf_var / float(valid_class_num);
     return avg_sim;
 }
 

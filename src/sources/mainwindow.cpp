@@ -77,12 +77,15 @@ void MainWindow::setEachTasks()
 	{
 		// setting 2d object detection
 		/* Below are to wmodels to compare, and achieve is the thesis presentation performance of each model */
-		ui->net1Name->setText(" YOLOv4 P7");
-		net1_achieve = 55.5;
-		ui->net2Name->setText(" CenterNet2");
-		net2_achieve = 45.6;
+		// ui->net1Name->setText(" YOLOv4 P7");
+		// net1_achieve = 55.5;
+		// ui->net2Name->setText(" CenterNet2");
+		// net2_achieve = 45.6;
+		ui->net1Name->setText(" R101-DC5");
+		net1_achieve = 40.6;
+		ui->net2Name->setText(" R101-FPN");
+		net2_achieve = 42.0;
 		od2d = new mode2DOD(this);
-		// od2d->threshold = threshold;
 		this->set2DODLayouts();
 		connect(od2d, SIGNAL(sendImgList(QStringList)), this, SLOT(setImageList(QStringList)));
 		connect(od2d, SIGNAL(sendGTImg(QImage)), this, SLOT(setGTImage(QImage)));
@@ -145,6 +148,9 @@ void MainWindow::setEachTasks()
 		connect(od3d->met3DOD, SIGNAL(sendmAPs(float, float)), this, SLOT(setmAPs(float, float)));
 		connect(od3d->met3DOD, SIGNAL(sendNetAPs(int, vector<pair<QString, float>>)), this, SLOT(setNetAPs(int, vector<pair<QString, float>>)));
 		connect(od3d->met3DOD, SIGNAL(sendAvgIOUs(vector<float>, vector<float>)), this, SLOT(setAvgIOUs(vector<float>, vector<float>)));
+		connect(od3d->met3DOD, SIGNAL(sendBBoxAcc(float, float, float)), this, SLOT(setBBoxAcc(float, float, float)));
+		connect(od3d->met3DOD, SIGNAL(sendVariance(float, float)), this, SLOT(setVariance(float, float)));
+		connect(od3d->met3DOD, SIGNAL(sendObjSim(float)), this, SLOT(setObjSim(float)));
 		connect(ui->thSpinBox, SIGNAL(valueChanged(int)), od3d, SLOT(setThreshold(int)));
 		connect(ui->accuracyButton, SIGNAL(clicked()), od3d, SLOT(calcAccuracy()));
 		connect(this, SIGNAL(sendListIdx(int)), od3d, SLOT(setDataIdx(int)));
